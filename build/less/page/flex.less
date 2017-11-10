@@ -1,0 +1,16 @@
+
+.flex(@justify-content:center,@flex-direction:row,@align-items:center){
+  display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+  flex-direction:@flex-direction;
+  justify-content:@justify-content;
+  align-items:@align-items;
+}
+.flex-grow{
+  flex-grow: 1;
+}
+.flex-center{
+  .flex(center)
+}
+.flex-between{
+  .flex(space-between)
+}

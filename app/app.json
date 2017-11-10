@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/member/index",
+    "pages/place/index",
+    "pages/withdraw/index",
+    "pages/count/index",
+    "pages/my/index"
+  ],
+  "window": {
+    "navigationBarTitleText":"娱客营销系统",
+    "navigationBarBackgroundColor":"#14adab",
+    "backgroundColor":"#fafafa"
+  },
+  "tabBar": {
+    "color":"#666",
+    "selectedColor":"#333",
+    "list": [
+      {
+        "pagePath": "pages/member/index",
+        "text": "会员"
+      },
+      {
+        "pagePath": "pages/place/index",
+        "text": "场所"
+      },
+      {
+        "pagePath": "pages/withdraw/index",
+        "text": "提现"
+      },
+      {
+        "pagePath": "pages/count/index",
+        "text": "统计"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  }
+}

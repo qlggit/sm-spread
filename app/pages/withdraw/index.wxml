@@ -1,0 +1,19 @@
+<import src="../common/search-form.wxml"></import>
+<view class="height-100-100 position-relative">
+    <view class="pl-20 pr-20">
+        <view class="pt-10 pb-10 clearfix lh-btn ">我的余额：6000 <button class="float-right" type="primary">申请提现</button></view>
+        <view class="pt-10 pb-10">提现记录</view>
+        <template is="searchForm" data="{{...searchData}}"></template>
+        <view class="display-table text-center pb-10 pt-10 table-list width-100-100">
+            <view wx:for="{{searchData.showList}}" wx:for-item="showItem" class="width-{{showItem.width}}-100">
+                {{showItem.title}}
+            </view>
+        </view>
+        <view wx:for="{{pageData}}" class="display-table text-center pb-10 pt-10 table-list width-100-100">
+            <view wx:for="{{searchData.showList}}" wx:for-item="showItem" class="width-{{showItem.width}}-100">
+                {{item[showItem.name]}}
+            </view>
+        </view>
+    </view>
+
+</view>

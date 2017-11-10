@@ -1,0 +1,36 @@
+<template name="searchForm">
+    <form bindreset="formReset">
+        <view class="search-form clearfix back-transparent">
+            <block wx:for="{{list}}">
+                <view class="form-line">
+                    <label class="inline-block text-top" for="{{'label-search-form'+index}}">{{item.title}}: </label>
+                    <picker wx:if="{{item.type === 'picker'}}"
+                            class="inline-block text-top"
+                            id="{{'label-search-form'+index}}"
+                            name="{{item.name}}"
+                            mode="{{item.pickerData.mode || 'selector'}}"
+                            range="{{item.pickerData.range}}"
+                            value="{{item.pickerData.value}}"
+                            start="{{item.pickerData.start}}"
+                            end="{{item.pickerData.end}}"
+                            bind:change="{{item.name}}PickerChange"
+                    >
+                        {{item.pickerData.mode === 'selector'
+                        ?item.pickerData.range[item.pickerData.value]
+                        :(item.pickerData.value
+                        ?item.pickerData.value:
+                        ('请选择'+item.pickerData.title))}}
+                    </picker>
+                    <input wx:else type="text"
+                           class="inline-block text-top"
+                           id="{{'label-search-form'+index}}"
+                           name="{{item.name}}"
+                           placeholder="请输入{{item.title}}"
+                    placeholder-class="input-placeholder"/>
+                </view>
+            </block>
+            <view class="form-line"><button class="inline-block text-top" form-type="submit">查询</button></view>
+            <view class="form-line"><button class="inline-block text-top" form-type="reset">重置</button></view>
+        </view>
+    </form>
+</template>

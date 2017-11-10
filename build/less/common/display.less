@@ -1,0 +1,47 @@
+.clearfix{
+  clear: both;
+}
+.clearfix:after,.clearfix:before{
+  display:table;content:" "
+}
+.clearfix:after{
+  clear: both;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.inline-block{
+  display: inline-block;
+  line-height:1;
+}
+.block{
+  display:block;
+}
+.overflow{
+  &-hidden{
+    overflow: hidden;
+  }
+  &-scroll{
+    overflow: scroll;
+  }
+}
+.display-table{
+  display: table;
+  text-align: center;
+  & > view{
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+.show{
+  display: block;
+}
+.hide{
+  display: none;
+}
+.opacity-0{
+  opacity: 0;
+}
