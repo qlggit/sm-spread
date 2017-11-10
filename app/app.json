@@ -4,7 +4,8 @@
     "pages/place/index",
     "pages/withdraw/index",
     "pages/count/index",
-    "pages/my/index"
+    "pages/my/index",
+    "pages/my/qrcode"
   ],
   "window": {
     "navigationBarTitleText":"娱客营销系统",

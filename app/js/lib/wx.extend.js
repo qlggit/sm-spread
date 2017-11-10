@@ -24,7 +24,7 @@ module.exports = function(WY){
     };
     WY.onShareAppMessage = function(title , url){
         return {
-            title: title||'图片识别',
+            title: title||'娱客',
             path: url || '/pages/index',
             success: function(res) {
                 // 转发成功
@@ -70,11 +70,15 @@ module.exports = function(WY){
             WY.oneUnBind(this);
         };
         wxObj.menuSwiperCurrentChange = function(e){
-            console.log(e);
             this.setData({
                 menuCurrent:e.detail.current
             });
-        }
+        };
+        wxObj.navigateTo = function(e){
+            wx.navigateTo({
+                url:e.currentTarget.dataset.link || e.target.dataset.link
+            });
+        };
         if(!wxObj.formReset){
             wxObj.formReset = function(){
                 console.log('formReset');

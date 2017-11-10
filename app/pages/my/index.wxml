@@ -1,16 +1,23 @@
 <view class="height-100-100">
-    <swiper current="{{current}}" class="height-100-100">
-        <block wx:for="{{dataList}}">
-            <swiper-item  class="height-100-100 text-center">
-                <view class="text-center pb-10 pt-10">{{item.name}}</view>
-                <image src="{{item.img}}"></image>
-                <scroll-view scroll-y class="break-all pb-50 pt-10 pl-10 pr-10 height-310">
-                    {{item.abstract}}
-                </scroll-view>
-            </swiper-item>
-        </block>
-    </swiper>
-    <button type="primary" class="position-fixed z-index-1000 bottom-10 width-40-100 left-30-30" data-source-type="camera" bindtap="chooseImage">拍照</button>
-    <button type="default" size="mini" class="position-fixed z-index-1000 bottom-10  left-0" data-source-type="album" bindtap="chooseImage">选照片</button>
-    <button type="default" size="mini" open-type="share" class="position-fixed z-index-1000 bottom-10  right-0">分享</button>
+   <view class="pl-20 pr-20">
+       <view class="clearfix pt-10 pb-10">
+           <text>昵称</text>
+           <text class="float-right">昵称</text>
+       </view>
+       <view class="clearfix pt-10 pb-10">
+           <text>id</text>
+           <text class="float-right">id</text>
+       </view>
+       <view class="clearfix pt-10 pb-10">
+           <text>电话</text>
+           <text class="float-right">13123412341</text>
+       </view>
+       <view class="clearfix pt-10 pb-10">
+           <text>余额</text>
+           <text class="float-right">6000</text>
+       </view>
+       <view class="pt-10 pb-10" bind:tap="navigateTo" data-link="/pages/my/qrcode" >
+           <view>我的推广二维码</view>
+       </view>
+   </view>
 </view>
