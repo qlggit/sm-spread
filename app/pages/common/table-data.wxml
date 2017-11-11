@@ -1,0 +1,17 @@
+<template name="tableData">
+    <view class="display-table text-center pb-10 pt-10 table-list width-100-100">
+        <view wx:for="{{searchData.showList}}" wx:for-item="showItem" class="width-{{showItem.width}}-100">
+            {{showItem.title}}
+        </view>
+    </view>
+    <view wx:for="{{pageData}}" class="display-table text-center pb-10 pt-10 table-list width-100-100">
+        <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
+            <view wx:if="{{showItem.type==='btn'}}" class="width-{{showItem.width}}-100">
+                <button size="mini" bind:tap="navigateTo" data-link="{{showItem.navigateTo}}">详情</button>
+            </view>
+            <view wx:else  class="width-{{showItem.width}}-100 break-all">
+                {{item[showItem.name]}}
+            </view>
+        </block>
+    </view>
+</template>

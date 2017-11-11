@@ -1,0 +1,6 @@
+<import src="../common/search-form.wxml"></import>
+<import src="../common/table-data.wxml"></import>
+<view class="height-100-100 position-relative">
+    <template is="searchForm" data="{{...searchData}}"></template>
+    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData}}"></template>
+</view>

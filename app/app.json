@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/member/index",
+    "pages/member/consume",
+    "pages/member/consume-list",
     "pages/place/index",
     "pages/withdraw/index",
     "pages/count/index",

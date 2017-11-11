@@ -85,5 +85,14 @@ module.exports = function(obj){
             }
             return data;
         };
+        obj.randomArray = function(array){
+            array = array || 'QWERTYUIOPASDFGHJKLZXCVBNM'.split('');
+            return array.slice().sort(function(){return .5 - Math.random()}).pop();
+        };
+        obj.randomInt = function(max , min){
+            max = max || 1e5;
+            min = min || 0;
+            return Math.round(min + Math.random() * (max - min ));
+        };
     }
 };

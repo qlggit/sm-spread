@@ -1,4 +1,5 @@
 <import src="../common/search-form.wxml"></import>
+<import src="../common/table-data.wxml"></import>
 <view class="height-100-100 pt-header position-relative">
     <view class="flex-center position-absolute width-100-100 left-0 top-0 z-index-10">
         <view wx:for="{{menuList}}" class="menu-item {{index===menuCurrent?'active':''}}"
@@ -8,19 +9,8 @@
         <block wx:for="{{dataList}}">
             <swiper-item  class="height-100-100">
                 <template is="searchForm" data="{{...searchData}}"></template>
-                <view class="display-table text-center pb-10 pt-10 table-list width-100-100">
-                    <view wx:for="{{searchData.showList}}" wx:for-item="showItem" class="width-{{showItem.width}}-100">
-                        {{showItem.title}}
-                    </view>
-                </view>
-                <view wx:for="{{pageData}}" class="display-table text-center pb-10 pt-10 table-list width-100-100">
-                    <view wx:for="{{searchData.showList}}" wx:for-item="showItem" class="width-{{showItem.width}}-100">
-                        {{item[showItem.name]}}
-                    </view>
-                    <view class="width-30-100"><button size="mini">详情</button></view>
-                </view>
+                <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData}}"></template>
             </swiper-item>
         </block>
-
     </swiper>
 </view>

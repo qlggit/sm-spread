@@ -75,7 +75,8 @@ module.exports = function(WY){
             });
         };
         wxObj.navigateTo = function(e){
-            wx.navigateTo({
+            var link = e.currentTarget.dataset.link || e.target.dataset.link;
+            if(link)wx.navigateTo({
                 url:e.currentTarget.dataset.link || e.target.dataset.link
             });
         };

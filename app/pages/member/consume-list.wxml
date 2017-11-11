@@ -1,0 +1,8 @@
+<import src="../common/search-form.wxml"></import>
+<import src="../common/table-data.wxml"></import>
+<view class="height-100-100 position-relative pl-20 pt-20 pr-20">
+    <view class="pt-10 pb-10">所在场所：xx酒吧</view>
+    <view class="pt-10 pb-10">总消费：5000</view>
+    <view class="pt-10 pb-10">消费时间：2017-11-11</view>
+    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData}}"></template>
+</view>

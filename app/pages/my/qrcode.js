@@ -5,6 +5,9 @@ Page({
         canvasWidth:0,
         current:0
     },
+    onShareAppMessage:function(){
+        return WY.onShareAppMessage();
+    },
     onLoad:function(options){
         WY.wxInit(this);
         var width = WY.systemInfo.windowWidth * .8;

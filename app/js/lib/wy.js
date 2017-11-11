@@ -5,6 +5,7 @@ require('./date.extend')(WY.common);
 require('./string.extend')(WY.common);
 require('./object.extend')(WY.common);
 require('./wx.extend')(WY);
+require('./wx.picker.data')(WY);
 WY.config = require('../../config');
 WY.url = require('./url')(WY.config);
 WY.request = require('./request');

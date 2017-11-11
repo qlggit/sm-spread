@@ -41,6 +41,12 @@ Page({
                     name:'phone',
                     width:'30'
                 },
+                {
+                    title:'操作',
+                    type:'btn',
+                    width:'30',
+                    navigateTo:'/pages/member/consume'
+                },
             ]
         },
         dataList:[{
@@ -62,7 +68,8 @@ Page({
             })
         }
         this.setData({
-            pageData:data
+            pageData:data,
+            tableDataAble:1
         })
     }
 });

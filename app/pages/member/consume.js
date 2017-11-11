@@ -5,6 +5,10 @@ Page({
         searchData:{
             list:[
                 {
+                    title:'场所名称',
+                    name:'name',
+                },
+                {
                     title:'开始时间',
                     name:'startDate',
                     type:'picker',
@@ -31,17 +35,23 @@ Page({
                 {
                     title:'日期',
                     name:'date',
-                    width:'30'
+                    width:'20'
+                },
+                {
+                    title:'场所',
+                    name:'place',
+                    width:'20'
                 },
                 {
                     title:'金额',
                     name:'amount',
-                    width:'30'
+                    width:'20'
                 },
                 {
-                    title:'状态',
-                    name:'status',
-                    width:'30'
+                    title:'操作',
+                    type:'btn',
+                    width:'20',
+                    navigateTo:'/pages/member/consume-list'
                 },
             ]
         },
@@ -50,23 +60,21 @@ Page({
         },{
 
         }],
-        pageData:[],
-        menuCurrent:0
+        pageData:[]
     },
     onLoad:function(options){
-        WY.wxInit(this , {
-            pickerChangeHandler:['startDate','endDate']
-        });
+        WY.wxInit(this);
         var data = [];
         for(var i=0;i<5;i++){
             data.push({
                 date:WY.common.randomDate(),
-                amount:Math.ceil(Math.random()*10000),
-                status:['申请中','提现中','已完成'].sort(function(){return .5 - Math.random()}).pop()
+                place:WY.common.randomArray() + '酒吧',
+                amount:WY.common.randomInt(10000,1000)
             })
         }
         this.setData({
-            pageData:data
+            pageData:data,
+            tableDataAble:1
         })
     }
 });
