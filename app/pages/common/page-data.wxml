@@ -1,0 +1,87 @@
+<template name="searchForm">
+    <form bindreset="formReset">
+        <view class="search-form clearfix back-237">
+            <block wx:for="{{list}}">
+                <view class="form-line flex-between {{index%2?'float-right':'float-left'}}">
+                    <label class="" for="{{'label-search-form'+index}}">{{item.title}}: </label>
+                    <picker wx:if="{{item.type === 'picker'}}"
+                            id="{{'label-search-form'+index}}"
+                            name="{{item.name}}"
+                            mode="{{item.pickerData.mode || 'selector'}}"
+                            range="{{item.pickerData.range}}"
+                            value="{{item.pickerData.value}}"
+                            start="{{item.pickerData.start}}"
+                            end="{{item.pickerData.end}}"
+                            bind:change="{{item.name}}PickerChange"
+                    >
+                        {{
+                        item.pickerData.mode === 'selector'
+                        ?item.pickerData.range[item.pickerData.value]
+                        :(item.pickerData.value
+                        ?item.pickerData.value:
+                        ('请选择'+item.pickerData.title))
+                        }}
+                    </picker>
+                    <input wx:else type="text"
+                           class=" "
+                           id="{{'label-search-form'+index}}"
+                           name="{{item.name}}"
+                           placeholder="请输入{{item.title}}"
+                           placeholder-class="input-placeholder"/>
+                </view>
+            </block>
+            <view class="form-line flex-between float-right">
+                <button class="margin-0 back-24 color-white" form-type="submit">查询</button>
+                <button class="margin-0 back-24 color-white" form-type="reset">重置</button>
+            </view>
+        </view>
+    </form>
+</template>
+<template name="tableData">
+    <view class="text-center table-list head position-relative back-237" style="padding-right:{{rightWidth}}rpx;">
+        <view class="width-100-100 overflow-hidden">
+            <view style="width:{{showMainWidth}}rpx;margin-left: {{-tableScrollLeft}}px">
+            <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
+                <view wx:if="{{showItem.type!=='btn'}}"  class="table-item break-all head" style="width:{{showItem.width}}rpx;">
+                    {{showItem.title}}
+                </view>
+            </block>
+            </view>
+        </view>
+        <view  class="table-item right position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
+            操作
+        </view>
+    </view>
+    <scroll-view scroll-y class="max-h-700" >
+        <view class="position-relative text-center"
+              style="padding-right:{{rightWidth}}rpx;">
+            <scroll-view scroll-x class="width-100-100"  bindscroll="tableScroll">
+                <view wx:for="{{pageData}}" class="table-list {{index%2?'back-237':'back-242'}}" style="width:{{showMainWidth}}rpx;">
+                    <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
+                        <view wx:if="{{showItem.type!=='btn'}}" style="width:{{showItem.width}}rpx;"  class="break-all table-item">
+                            {{item[showItem.name]}}
+                        </view>
+                    </block>
+                </view>
+            </scroll-view>
+            <view class="position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
+                <view wx:for="{{pageData}}" data-index="{{index}}"
+                      class="table-item right flex-center inline-block"
+                      style="width:{{rightWidth}}rpx;">
+                    <block wx:for="{{searchData.showList[searchData.showList.length-1].btn}}" wx:for-item="showItem">
+                        <button  bind:tap="navigateTo" data-link="{{showItem.navigateTo}}" class="inline-block">
+                            {{showItem.name}}
+                        </button>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+
+</template>
+<template name="menuHeader">
+    <view class="flex-center position-absolute width-100-100 left-0 top-0 z-index-10 menu-main back-242">
+        <view wx:for="{{menuList}}" class="menu-item {{index===menuCurrent?'active':''}}"
+              bindtap="menuChange" data-index="{{index}}">{{item.name}}</view>
+    </view>
+</template>

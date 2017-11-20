@@ -94,5 +94,13 @@ module.exports = function(obj){
             min = min || 0;
             return Math.round(min + Math.random() * (max - min ));
         };
+        obj.sum = function(data , func){
+            func = func || function(a){return a - 0};
+            var sum = 0;
+            data.forEach(function(a){
+                sum += func(a) - 0;
+            })
+            return sum;
+        }
     }
 };

@@ -1,6 +1,6 @@
 
 .flex(@justify-content:center,@flex-direction:row,@align-items:center){
-  display: flex; /* 新版本语法: Opera 12.1, Firefox 22+ */
+  display: flex;
   flex-direction:@flex-direction;
   justify-content:@justify-content;
   align-items:@align-items;
@@ -11,6 +11,12 @@
 .flex-center{
   .flex(center)
 }
+.flex-left{
+  .flex(flex-start);
+}
 .flex-between{
   .flex(space-between)
+}
+.flex-wrap{
+  flex-wrap: wrap;
 }

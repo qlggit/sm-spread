@@ -1,15 +1,11 @@
-<import src="../common/search-form.wxml"></import>
-<import src="../common/table-data.wxml"></import>
+<import src="../common/page-data.wxml"></import>
 <view class="height-100-100 pt-header position-relative">
-    <view class="flex-center position-absolute width-100-100 left-0 top-0 z-index-10">
-        <view wx:for="{{menuList}}" class="menu-item {{index===menuCurrent?'active':''}}"
-              bindtap="menuChange" data-index="{{index}}">{{item.name}}</view>
-    </view>
+    <template is="menuHeader" data="{{menuList:menuList,menuCurrent:menuCurrent}}"></template>
     <swiper current="{{menuCurrent}}" bind:change="menuSwiperCurrentChange" class="height-100-100">
         <block wx:for="{{dataList}}">
             <swiper-item  class="height-100-100">
                 <template is="searchForm" data="{{...searchData}}"></template>
-                <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData}}"></template>
+                <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,rightWidth:150,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth}}"></template>
             </swiper-item>
         </block>
     </swiper>

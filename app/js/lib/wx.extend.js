@@ -60,6 +60,9 @@ module.exports = function(WY){
     };
     WY.wxInit = function(wxObj , options){
         options = options || {};
+        wxObj.allEventHandler = function(){
+
+        };
         wxObj.menuChange = function(e){
             this.setData({
                 menuCurrent:e.target.dataset.index
@@ -79,6 +82,12 @@ module.exports = function(WY){
             if(link)wx.navigateTo({
                 url:e.currentTarget.dataset.link || e.target.dataset.link
             });
+        };
+        wxObj.tableScroll = function(e){
+            this.setData({
+                tableScrollLeft:e.detail.scrollLeft,
+                tableScrollTop:e.detail.scrollTop,
+            })
         };
         if(!wxObj.formReset){
             wxObj.formReset = function(){
@@ -124,5 +133,6 @@ module.exports = function(WY){
                 wxObj[a+'PickerChange'] = pickerChange(a);
             });
         }
+
     }
 };

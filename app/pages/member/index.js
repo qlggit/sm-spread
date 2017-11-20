@@ -29,23 +29,36 @@ Page({
                 {
                     title:'Id',
                     name:'id',
-                    width:'20'
+                    width:'150'
                 },
                 {
                     title:'昵称',
                     name:'nickname',
-                    width:'20'
+                    width:'150'
                 },
                 {
                     title:'手机号',
                     name:'phone',
-                    width:'30'
+                    width:'300'
+                },
+                {
+                    title:'金额',
+                    name:'money',
+                    width:'150'
+                },
+                {
+                    title:'会员等级',
+                    name:'lvl',
+                    width:'150'
                 },
                 {
                     title:'操作',
                     type:'btn',
-                    width:'30',
-                    navigateTo:'/pages/member/consume'
+                    btn:[{
+                        navigateTo:'/pages/member/consume',
+                        code:'',
+                        name:'详情'
+                    }]
                 },
             ]
         },
@@ -64,10 +77,15 @@ Page({
             data.push({
                 nickname:'nickname' + i,
                 id:'id'+i,
-                phone:1334567890+''+i
+                phone:1334567890+''+i,
+                money:WY.common.randomInt(100 , 10000),
+                lvl:WY.common.randomInt(1 , 10)
             })
         }
         this.setData({
+            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
+                return a.width || 0;
+            }),
             pageData:data,
             tableDataAble:1
         })

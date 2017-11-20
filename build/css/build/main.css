@@ -1,5 +1,6 @@
 page {
   background: #f0f0f0;
+  color: #686868;
   height: 100%;
 }
 view,
@@ -79,6 +80,9 @@ navigator {
 .min-h-300 {
   min-height: 300rpx;
 }
+.max-h-700 {
+  min-height: 700rpx;
+}
 .lh-btn {
   line-height: 92rpx;
 }
@@ -89,7 +93,7 @@ navigator {
   padding-top: 20rpx;
 }
 .pt-header {
-  padding-top: 91rpx;
+  padding-top: 82rpx;
 }
 .pb-10 {
   padding-bottom: 10rpx;
@@ -154,6 +158,18 @@ navigator {
 .back-transparent {
   background: transparent;
 }
+.back-242 {
+  background: #f2f2f2;
+}
+.back-24 {
+  background: #181818;
+}
+.back-235 {
+  background: #ebebeb;
+}
+.back-237 {
+  background: #ededed;
+}
 .clearfix {
   clear: both;
 }
@@ -201,6 +217,18 @@ navigator {
 .opacity-0 {
   opacity: 0;
 }
+.margin-0 {
+  margin: 0;
+}
+.margin-auto {
+  margin: auto;
+}
+.color-white {
+  color: white;
+}
+.color-24 {
+  color: #181818;
+}
 image {
   width: 150rpx;
   height: 150rpx;
@@ -208,79 +236,124 @@ image {
 input {
   border: 0;
   padding-left: 10rpx;
+  min-height: 1rem;
 }
 input:focus {
   outline: none;
 }
-.table-list {
-  border-bottom: 1px solid #ddd;
+.input-placeholder {
+  color: #686868;
+  font-size: 24rpx;
 }
-.table-list view {
-  border-right: 1px solid white;
-}
-.table-list view:last-child {
-  border-right: 0;
+.menu-main {
+  padding-top: 20rpx;
+  padding-bottom: 18rpx;
 }
 .menu-item {
-  padding-top: 30rpx;
-  padding-bottom: 30rpx;
-  color: #666;
+  padding-bottom: 10rpx;
+  color: #686868;
   font-size: 30rpx;
-  border-bottom: 1px solid transparent;
-  margin-right: 30rpx;
-  height: 91rpx;
+  border-bottom: 4rpx solid transparent;
+  margin-right: 60rpx;
 }
 .menu-item.active {
-  color: #333;
-  border-bottom: 1px solid #333;
+  color: #181818;
+  border-bottom: 4rpx solid #181818;
 }
 .menu-item:last-child {
   margin-right: 0;
 }
 .search-form {
-  padding: 10rpx 30rpx;
-  font-size: 30rpx;
+  padding: 22rpx 24rpx 24rpx 16rpx;
+  font-size: 24rpx;
+  margin-bottom: -16rpx;
 }
 .search-form .form-line {
-  display: inline-block;
-  margin-bottom: 20rpx;
-  margin-right: 30rpx;
+  margin-bottom: 36rpx;
+  height: 48rpx;
+  width: 330rpx;
 }
 .search-form .form-line label {
   min-width: 100rpx;
   text-align: right;
-  line-height: 60rpx;
-  height: 60rpx;
+  line-height: 48rpx;
+  height: 48rpx;
+  margin-right: 12rpx;
 }
 .search-form .form-line input,
 .search-form .form-line picker {
-  width: 200rpx;
-  border: 0;
-  padding-top: 15rpx;
-  padding-bottom: 15rpx;
-  height: 60rpx;
-  line-height: 30rpx;
+  width: 230rpx;
+  border: 1px solid #686868;
+  height: 48rpx;
+  font-size: 24rpx;
+  line-height: 46rpx;
+  padding-top: 11rpx;
+  padding-bottom: 11rpx;
+  border-radius: 5rpx;
 }
 .search-form .form-line button {
-  width: 200rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  border-radius: 60rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  font-size: 24rpx;
+  height: 46rpx;
+  line-height: 46rpx;
+  border-radius: 46rpx;
 }
 .flex-grow {
   flex-grow: 1;
 }
 .flex-center {
   display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+.flex-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 .flex-between {
   display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.table-list {
+  min-width: 100%;
+  height: 68rpx;
+  border-bottom: 1px solid #c2c2c2;
+}
+.table-list.head {
+  padding-top: 15rpx;
+  padding-bottom: 15rpx;
+}
+.table-item {
+  height: 66rpx;
+  display: inline-block;
+  border-right: 1px solid #c2c2c2;
+  font-size: 24rpx;
+  padding-top: 13rpx;
+}
+.table-item.head {
+  height: 38rpx;
+  font-size: 30rpx;
+}
+.table-item.right {
+  border-left: 1px solid #c2c2c2;
+  border-right: 0;
+  height: 68rpx;
+  border-bottom: 1px solid #c2c2c2;
+}
+.table-item button {
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  height: 40rpx;
+  line-height: 36rpx;
+  border: 1px solid #181818;
+  font-size: 26rpx;
 }
