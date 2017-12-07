@@ -16,7 +16,7 @@ Page({
         });
         var canvas = wx.createCanvasContext('my-canvas');
         WY.qrcode(canvas , {
-            text:'https://www.baidu.com',
+            text:'http://wx.yukew.com/spread/'+WY.session.userInfo.tokenModel.userId,
             width:width,
             height:width
         });

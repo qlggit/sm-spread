@@ -3,7 +3,7 @@
         <view class="search-form clearfix back-237">
             <block wx:for="{{list}}">
                 <view class="form-line flex-between {{index%2?'float-right':'float-left'}}">
-                    <label class="" for="{{'label-search-form'+index}}">{{item.title}}: </label>
+                    <label class="break-none" for="{{'label-search-form'+index}}">{{item.title}}: </label>
                     <picker wx:if="{{item.type === 'picker'}}"
                             id="{{'label-search-form'+index}}"
                             name="{{item.name}}"
@@ -48,13 +48,13 @@
             </block>
             </view>
         </view>
-        <view  class="table-item right position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
+        <view wx:if="{{!notBtn}}" class="table-item right head position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
             操作
         </view>
     </view>
     <scroll-view scroll-y class="max-h-700" >
         <view class="position-relative text-center"
-              style="padding-right:{{rightWidth}}rpx;">
+              style="padding-right:{{notBtn?0:rightWidth}}rpx;">
             <scroll-view scroll-x class="width-100-100"  bindscroll="tableScroll">
                 <view wx:for="{{pageData}}" class="table-list {{index%2?'back-237':'back-242'}}" style="width:{{showMainWidth}}rpx;">
                     <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
@@ -64,7 +64,7 @@
                     </block>
                 </view>
             </scroll-view>
-            <view class="position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
+            <view wx:if="{{!notBtn}}" class="position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
                 <view wx:for="{{pageData}}" data-index="{{index}}"
                       class="table-item right flex-center inline-block"
                       style="width:{{rightWidth}}rpx;">

@@ -3,17 +3,18 @@ var request = function(options){
     var done = options.done;
     var success = options.success;
     var error = options.error;
+    if(options.method === 'POST' && options.notBody){
+        header['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
     console.log('request');
     console.log(options);
     wx.request(Object.assign({},options,{
         success:function(res){
             var data = global.WY.common.parse(res.data);
-            if(options.header['Content-Type'] && options.header['Content-Type'].indexOf('html')===-1){
-                if(data.code === 'SUCCESS' || data.code === 0){
-                    success && success(data);
-                }else{
-                    global.WY.toast(data.message , 1);
-                }
+            if(data && (data.code === '10000' || data.code === 0)){
+                success && success(data);
+            }else{
+                global.WY.toast(data && data.message || '系统繁忙！' , 1);
             }
             done && done(res);
         },

@@ -1,0 +1,23 @@
+<view wx:if="{{doBindPhone}}" class="width-100-100 height-100-100 back-black-3 position-fixed z-index-2000 flex-center">
+    <view class="pt-20 pb-20 pl-20 pr-20 back-white">
+        <form bindsubmit="doBindPhone" >
+            <view class="text-center pt-20 pb-20">绑定手机号</view>
+            <view class="flex-between pt-20 pb-20">
+                <input value="{{bindPhoneNumber}}" bindinput="inputPhoneNumber" name="phone" maxlength="11" type="tel" placeholder="输入手机号" />
+                <button class="" size="mini" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber">自动获取</button>
+            </view>
+            <view class="flex-between pt-20 pb-20">
+                <input value="" name="sendCode" maxlength="6" type="number" placeholder="输入验证码" />
+                <button class=""  size="mini" bindtap="sendSms">获取验证码</button>
+            </view>
+            <view class="text-center pt-20 pb-20">
+                <button class="" form-type="submit" type="primary">绑定</button>
+            </view>
+        </form>
+    </view>
+</view>
+<view wx:if="{{doShowToast}}" class="width-100-100  position-fixed z-index-2000 flex-center toast-window">
+    <view class="text back-black-3 color-white text-center">
+        {{showToastContent}}
+    </view>
+</view>

@@ -1,3 +1,13 @@
+.search-item(@pt:11rpx){
+  width: 230rpx;
+  border: 1px solid @color-104;
+  height: 48rpx;
+  font-size:24rpx;
+  line-height:46rpx;
+  padding-top:@pt;
+  padding-bottom:11rpx;
+  border-radius: 10rpx;
+}
 .search-form{
   padding:22rpx 24rpx 24rpx 16rpx;
   font-size:24rpx;
@@ -13,15 +23,12 @@
       height: 48rpx;
       margin-right:12rpx;
     }
-    input,picker{
-      width: 230rpx;
-      border: 1px solid @color-104;
-      height: 48rpx;
-      font-size:24rpx;
-      line-height:46rpx;
-      padding-top:11rpx;
-      padding-bottom:11rpx;
-      border-radius: 10rpx;
+    input{
+      .search-item();
+    }
+    picker{
+      .search-item(0);
+      padding-left:10rpx;
     }
     button{
       padding-left:40rpx;

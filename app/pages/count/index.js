@@ -48,21 +48,27 @@ Page({
                 {
                     title:'名称',
                     name:'name',
-                    width:'20'
+                    width:'200'
                 },
                 {
                     title:'次数',
                     name:'count',
-                    width:'20'
+                    width:'200'
                 },
                 {
                     title:'金额',
                     name:'amount',
-                    width:'30'
+                    width:'200'
                 },
             ]
         },
         dataList:[{
+
+        },{
+
+        },{
+
+        },{
 
         },{
 
@@ -83,7 +89,11 @@ Page({
             })
         }
         this.setData({
-            pageData:data
+            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
+                return a.width || 0;
+            }),
+            pageData:data,
+            tableDataAble:1
         })
     }
 });

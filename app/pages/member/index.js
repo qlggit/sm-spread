@@ -78,8 +78,8 @@ Page({
                 nickname:'nickname' + i,
                 id:'id'+i,
                 phone:1334567890+''+i,
-                money:WY.common.randomInt(100 , 10000),
-                lvl:WY.common.randomInt(1 , 10)
+                money:WY.common.randomInt(10000 , 100),
+                lvl:WY.common.randomInt(10 , 1)
             })
         }
         this.setData({

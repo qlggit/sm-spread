@@ -7,7 +7,8 @@ view,
 text,
 input,
 label,
-navigator {
+navigator,
+picker {
   line-height: 1;
   box-sizing: border-box;
 }
@@ -155,6 +156,12 @@ navigator {
 .back-black {
   background: black;
 }
+.back-black-3 {
+  background: rgba(0, 0, 0, 0.3);
+}
+.back-black-6 {
+  background: rgba(0, 0, 0, 0.6);
+}
 .back-transparent {
   background: transparent;
 }
@@ -280,8 +287,7 @@ input:focus {
   height: 48rpx;
   margin-right: 12rpx;
 }
-.search-form .form-line input,
-.search-form .form-line picker {
+.search-form .form-line input {
   width: 230rpx;
   border: 1px solid #686868;
   height: 48rpx;
@@ -289,7 +295,18 @@ input:focus {
   line-height: 46rpx;
   padding-top: 11rpx;
   padding-bottom: 11rpx;
-  border-radius: 5rpx;
+  border-radius: 10rpx;
+}
+.search-form .form-line picker {
+  width: 230rpx;
+  border: 1px solid #686868;
+  height: 48rpx;
+  font-size: 24rpx;
+  line-height: 46rpx;
+  padding-top: 0;
+  padding-bottom: 11rpx;
+  border-radius: 10rpx;
+  padding-left: 10rpx;
 }
 .search-form .form-line button {
   padding-left: 40rpx;
@@ -324,7 +341,6 @@ input:focus {
   flex-wrap: wrap;
 }
 .table-list {
-  min-width: 100%;
   height: 68rpx;
   border-bottom: 1px solid #c2c2c2;
 }
@@ -340,14 +356,18 @@ input:focus {
   padding-top: 13rpx;
 }
 .table-item.head {
-  height: 38rpx;
+  padding-top: 4rpx;
   font-size: 30rpx;
+  height: 38rpx;
 }
 .table-item.right {
   border-left: 1px solid #c2c2c2;
   border-right: 0;
   height: 68rpx;
   border-bottom: 1px solid #c2c2c2;
+}
+.table-item.right.head {
+  padding-top: 19rpx;
 }
 .table-item button {
   padding-left: 20rpx;
@@ -356,4 +376,15 @@ input:focus {
   line-height: 36rpx;
   border: 1px solid #181818;
   font-size: 26rpx;
+}
+.toast-window {
+  bottom: 10%;
+}
+.toast-window .text {
+  font-size: 30rpx;
+  line-height: 30rpx;
+  min-height: 50rpx;
+  padding-top: 10rpx;
+  border-radius: 50rpx;
+  width: 70%;
 }

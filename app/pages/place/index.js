@@ -31,17 +31,26 @@ Page({
                 {
                     title:'Id',
                     name:'id',
-                    width:'20'
+                    width:'200'
                 },
                 {
                     title:'昵称',
                     name:'nickname',
-                    width:'20'
+                    width:'200'
                 },
                 {
                     title:'手机号',
                     name:'phone',
-                    width:'30'
+                    width:'200'
+                },
+                {
+                    title:'手机号',
+                    type:'btn',
+                    btn:[{
+                        navigateTo:'/pages/member/consume',
+                        code:'',
+                        name:'详情'
+                    }]
                 },
             ]
         },
@@ -66,7 +75,11 @@ Page({
             })
         }
         this.setData({
-            pageData:data
+            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
+                return a.width || 0;
+            }),
+            pageData:data,
+            tableDataAble:1
         })
     }
 });

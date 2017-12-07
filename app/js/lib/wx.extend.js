@@ -7,20 +7,27 @@ module.exports = function(WY){
     };
     WY.toast = function(msg , type){
         var sendData;
-        if(typeof msg =='object'){
+        if(typeof msg ==='object'){
             sendData = msg;
             if(sendData.done){
                 setTimeout(sendData.done , sendData.duration || 1500);
             }
         }
-        else sendData = {
-            title:msg || '加载中',
-            mask:true,
-        };
+        else{
+            if(msg)msg+='';
+            sendData = {
+                title:msg || '加载中',
+                mask:true,
+            };
+        }
         if(type || sendData.type){
             sendData.image = '/images/warn.png'
         }
         wx.showToast(sendData)
+    };
+    WY.newToast = function(msg , delay){
+        msg+='';
+        WY.trigger('wy-toast' , msg , delay);
     };
     WY.onShareAppMessage = function(title , url){
         return {
@@ -134,5 +141,60 @@ module.exports = function(WY){
             });
         }
 
+
+
+        wxObj.getPhoneNumber = function(data){
+            if(data.iv)WY.trigger('de-key-info',data , function(o){
+                wxObj.writePhoneNumber = o.purePhoneNumber;
+                wxObj.setData({
+                    bindPhoneNumber:o.purePhoneNumber,
+                })
+            });
+        };
+        WY.ready('do-bind-phone' , function(){
+            wxObj.setData({
+                doBindPhone:1,
+            })
+        });
+        wxObj.inputPhoneNumber = function(e){
+            this.writePhoneNumber = e.detail.value;
+        };
+        wxObj.doBindPhone = function(e){
+            var data = e.detail.value;
+            if(!data.phone || !/^1\d{10}$/.test(data.phone)){
+                WY.toast('请输入有效的手机号！');
+                return false;
+            }
+            if(!data.sendCode || !/^\d{6}$/.test(data.sendCode)){
+                WY.toast('请输入有效的验证码！');
+                return false;
+            }
+            WY.trigger('send-bind-phone' , data.phone , function(){
+                wxObj.setData({
+                    doBindPhone:0,
+                });
+            });
+        };
+        wxObj.sendSms = function(){
+            var phone = this.writePhoneNumber;
+            if(!phone || !/^1\d{10}$/.test(phone)){
+                WY.toast('请输入有效的手机号！');
+                return false;
+            }
+        };
+        WY.trigger('check-session' );
+        var toastTimer;
+        WY.oneBind('wy-toast' ,function(txt , delay){
+            clearTimeout(toastTimer);
+            wxObj.setData({
+                doShowToast:1,
+                showToastContent:txt
+            });
+            toastTimer = setTimeout(function(){
+                wxObj.setData({
+                    doShowToast:0
+                })
+            } , delay || 1500);
+        } , wxObj);
     }
 };

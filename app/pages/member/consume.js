@@ -35,23 +35,26 @@ Page({
                 {
                     title:'日期',
                     name:'date',
-                    width:'20'
+                    width:'150'
                 },
                 {
                     title:'场所',
                     name:'place',
-                    width:'20'
+                    width:'150'
                 },
                 {
                     title:'金额',
                     name:'amount',
-                    width:'20'
+                    width:'150'
                 },
                 {
                     title:'操作',
                     type:'btn',
-                    width:'20',
-                    navigateTo:'/pages/member/consume-list'
+                    btn:[{
+                        navigateTo:'/pages/member/consume-list',
+                        code:'',
+                        name:'详情'
+                    }]
                 },
             ]
         },
@@ -73,6 +76,9 @@ Page({
             })
         }
         this.setData({
+            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
+                return a.width || 0;
+            }),
             pageData:data,
             tableDataAble:1
         })

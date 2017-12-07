@@ -31,17 +31,17 @@ Page({
                 {
                     title:'日期',
                     name:'date',
-                    width:'30'
+                    width:'200'
                 },
                 {
                     title:'金额',
                     name:'amount',
-                    width:'30'
+                    width:'200'
                 },
                 {
                     title:'状态',
                     name:'status',
-                    width:'30'
+                    width:'200'
                 },
             ]
         },
@@ -66,7 +66,11 @@ Page({
             })
         }
         this.setData({
-            pageData:data
+            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
+                return a.width || 0;
+            }),
+            pageData:data,
+            tableDataAble:1
         })
     }
 });
