@@ -1,8 +1,8 @@
 module.exports = function(WY){
-    WY.session = {};
-    var sessionKeyData = WY.session.sessionKeyData = WY.common.parse(wx.getStorageSync('sessionKeyData') || '');
-    var loginData = WY.session.loginData = WY.common.parse(wx.getStorageSync('loginData') || '');
-    var userInfo = WY.session.userInfo = WY.common.parse(wx.getStorageSync('userInfo') || '');
+    var session = WY.session = {};
+    var sessionKeyData = session.sessionKeyData = WY.common.parse(wx.getStorageSync('sessionKeyData') || '');
+    var loginData = session.loginData = WY.common.parse(wx.getStorageSync('loginData') || '');
+    var userInfo = session.userInfo = WY.common.parse(wx.getStorageSync('userInfo') || '');
     function login(){
         wx.login({
             success: function(res) {
@@ -26,21 +26,16 @@ module.exports = function(WY){
                 console.log(data);
                 sessionKeyData = data;
                 wx.setStorageSync('sessionKeyData',JSON.stringify(sessionKeyData));
-                WY.session.sessionKeyData = sessionKeyData;
+                session.sessionKeyData = sessionKeyData;
                 getUserInfo();
-            }
+            },
         });
     }
     function checkSession(){
         wx.checkSession({
             success:function(){
                 WY.ready('has-login');
-                if(userInfo){
-                    WY.ready('user-info',userInfo);
-                    checkPhone();
-                    return;
-                }
-                if(loginData){
+                if(userInfo || loginData){
                     checkUser();
                     return;
                 }
@@ -64,9 +59,13 @@ module.exports = function(WY){
                 deInfo(res , function(data){
                     loginData = data.data;
                     wx.setStorageSync('loginData',JSON.stringify(loginData));
-                    WY.session.loginData = loginData;
+                    session.loginData = loginData;
                     checkUser();
                 });
+            },
+            fail:function(){
+                console.log('getUserInfo fail');
+                global.WY.newToast('您已拒绝使用此产品')
             }
         })
     }
@@ -94,15 +93,18 @@ module.exports = function(WY){
                 headImg :loginData.avatarUrl,
                 nickname  :loginData.nickName,
                 openId   :loginData.openId ,
-                sType    :'weixin'  ,
+                stype     :'weixin'  ,
+                sType     :'weixin'  ,
                 uid     :loginData.unionId ,
+                gender      :loginData.gender  ,
             },
             method:'POST',
             success:function(data){
                 hasDoLogin = 1;
                 userInfo = data.result;
                 wx.setStorageSync('userInfo',JSON.stringify(userInfo));
-                WY.session.userInfo = userInfo;
+                session.userInfo = userInfo;
+                WY.ready('user-info',userInfo);
                 checkPhone();
             }
         });
@@ -118,15 +120,23 @@ module.exports = function(WY){
             url:WY.url.login.bind,
             method:'POST',
             data:{
-                userId:WY.session.userInfo.tokenModel.userId,
+                userId:session.userInfo.tokenModel.userId,
                 phone:phone
             },
             notBody:1,
             success:function(a){
-                WY.session.userInfo.mobile = phone;
+                session.userInfo.mobile = phone;
                 WY.newToast(a.message);
                 call && call(a.code - 0 === 10000);
             }
         })
-    })
+    });
+    WY.bind('request-error-401',function(){
+        checkUser();
+    });
+    WY.session.getTokenInfo = function(){
+        if(!session.userInfo || !session.userInfo.tokenModel)return ''
+       return [session.userInfo.tokenModel.userId,session.userInfo.tokenModel.token].join('_');
+    }
+    WY.ready('wx-authorize-userInfo',checkSession);
 };

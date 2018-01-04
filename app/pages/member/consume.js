@@ -5,10 +5,6 @@ Page({
         searchData:{
             list:[
                 {
-                    title:'场所名称',
-                    name:'name',
-                },
-                {
                     title:'开始时间',
                     name:'startDate',
                     type:'picker',
@@ -43,7 +39,7 @@ Page({
                     width:'150'
                 },
                 {
-                    title:'金额',
+                    title:'最低消费',
                     name:'amount',
                     width:'150'
                 },
@@ -67,20 +63,31 @@ Page({
     },
     onLoad:function(options){
         WY.wxInit(this);
-        var data = [];
-        for(var i=0;i<5;i++){
-            data.push({
-                date:WY.common.randomDate(),
-                place:WY.common.randomArray() + '酒吧',
-                amount:WY.common.randomInt(10000,1000)
-            })
-        }
         this.setData({
             showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
                 return a.width || 0;
             }),
-            pageData:data,
-            tableDataAble:1
+        })
+    },
+    doSearch:function(){
+        var that = this;
+        WY.request({
+            url:WY.url.order.seat,
+            data:{
+                pageNum:this.data.pageNum,
+                pageSize:this.data.pageSize,
+            },
+            success:function(a){
+                a.data.list.forEach(function(a){
+                    a.date = WY.common.parseDate(a.bookTime , 'Y-m-d');
+                    a.place = a.supplierName;
+                    a.amount = a.lowCostAmount && a.lowCostAmount.turnMoney();
+                });
+                that.setData({
+                    pageData:that.data.pageData.concat(a.data.list),
+                    tableDataAble:1
+                })
+            }
         })
     }
 });

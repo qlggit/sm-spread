@@ -102,5 +102,12 @@ module.exports = function(obj){
             })
             return sum;
         }
+        obj.copyProp = function(o , prop){
+            var rt = {};
+            for(var key in prop){
+                rt[key] = o[key];
+            }
+            return rt;
+        };
     }
 };

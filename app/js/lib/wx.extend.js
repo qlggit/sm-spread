@@ -1,4 +1,68 @@
 module.exports = function(WY){
+    var hasAuthorize = {};
+    var authorizeSuccessCount = 0;
+    var authorizeCompleteCount = 0;
+    function doAuthorize(key , sts){
+        if(!sts && hasAuthorize[key]){
+            authorizeCompleteCount++;
+            authorizeSuccessCount++;
+            checkAuthorize();
+            return false;
+        }
+        wx.authorize({
+            scope:'scope.'+key,
+            success:function(){
+                hasAuthorize[key] = 1;
+                WY.ready('wx-authorize-'+key);
+                authorizeSuccessCount++;
+            },
+            fail:function(){
+
+            },
+            complete:function(){
+                authorizeCompleteCount++;
+                checkAuthorize();
+            }
+        });
+    }
+    function checkAuthorize(){
+        if(authorizeCompleteCount >= authorizeType.length){
+            if(authorizeSuccessCount < authorizeType.length){
+                openSetting();
+            }
+        }
+    }
+    function openSetting(){
+        wx.openSetting({
+            success:function(e){
+                getSetting();
+            }
+        })
+    }
+    var authorizeType = ['userInfo','userLocation'];
+    function doAuthorizeAll(){
+        authorizeType.forEach(function(a){
+            doAuthorize(a);
+        })
+    }
+    function getSetting(){
+        wx.getSetting({
+            success:function(e){
+                authorizeType.every(function(a){
+                    if( ! e.authSetting['scope.' + a ]){
+                        hasAuthorize[a] = 0;
+                        checkAuthorize();
+                        return false
+                    }else{
+                        authorizeCompleteCount --;
+                        doAuthorize(a);
+                        return true;
+                    }
+                });
+            }
+        })
+    }
+    doAuthorizeAll();
     WY.loading = function(msg){
         wx.showLoading({
             title:msg || '加载中',
@@ -85,10 +149,19 @@ module.exports = function(WY){
             });
         };
         wxObj.navigateTo = function(e){
-            var link = e.currentTarget.dataset.link || e.target.dataset.link;
-            if(link)wx.navigateTo({
-                url:e.currentTarget.dataset.link || e.target.dataset.link
-            });
+            var dataset = e.currentTarget.dataset;
+            var link = dataset.link;
+            console.log(dataset);
+            if(link){
+                var item = dataset.item;
+                var params = dataset.params;
+                if(params){
+                    link = WY.common.addUrlParam(link , WY.common.copyProp(item,params))
+                }
+                wx.navigateTo({
+                    url:link
+                });
+            }
         };
         wxObj.tableScroll = function(e){
             this.setData({
@@ -96,11 +169,10 @@ module.exports = function(WY){
                 tableScrollTop:e.detail.scrollTop,
             })
         };
-        if(!wxObj.formReset){
-            wxObj.formReset = function(){
-                console.log('formReset');
+        if(!wxObj.searchFormReset){
+            wxObj.searchFormReset = function(){
+                console.log('searchFormReset');
                 var searchData = this.data.searchData;
-                console.log(searchData);
                 var hasPickerReset = 0;
                 searchData.list.forEach(function(a){
                     if(a.type === 'picker'){
@@ -108,10 +180,77 @@ module.exports = function(WY){
                         a.pickerData.value = 0;
                     }
                 });
-                console.log(searchData);
                 if(hasPickerReset)this.setData({
                     searchData:searchData
                 })
+            }
+        }
+        if(!wxObj.searchFormSubmit){
+            wxObj.searchFormSubmit = function(e){
+                console.log('searchFormSubmit');
+                this.reset();
+                this.doSearch(e.detail.value);
+            }
+        }
+        if(!wxObj.showPrev){
+            wxObj.showPrev = function(e){
+                if(e.target.dataset.status - 0 === 1){
+                    wxObj.setData({
+                        pageNum:wxObj.data.pageNum - 1,
+                        pageData:[],
+                    });
+                    wxObj.doSearch();
+                }
+            }
+        }
+        if(!wxObj.showNext){
+            wxObj.showNext = function(e){
+                if(e.target.dataset.status - 0 === 1){
+                    wxObj.setData({
+                        pageNum:wxObj.data.pageNum + 1,
+                        pageData:[],
+                    });
+                    wxObj.doSearch();
+                }
+            }
+        }
+        if(!wxObj.setPageData){
+            wxObj.setPageData = function(a){
+                wxObj.setData({
+                    pageData:a.result.list,
+                    tableDataAble:1,
+                    totalData:a.result
+                })
+            }
+        }
+        if(!wxObj.reset){
+            wxObj.setData({
+                pageNum:1,
+                pageSize:10,
+                pageData:[],
+            });
+            wxObj.reset = function(){
+                this.data.pageNum = 1;
+                this.data.pageData = [];
+            }
+        }
+        if(!wxObj.pageDataScrollToLower){
+            wxObj.pageDataScrollToLower = function(){
+                this.data.pageNum++;
+                this.doSearch();
+            }
+        }
+        if(!wxObj.openLocation){
+            wxObj.openLocation = function(e){
+                var item = e.target.dataset.item;
+                var gps = WY.wgs84togcj02(item.gpsLongitude - 0,item.gpsDimension - 0);
+                console.log(item);
+                console.log(gps);
+                wx.openLocation({
+                    latitude:gps[1],
+                    longitude:gps[0],
+                    name:item.supplierName,
+                });
             }
         }
         function pickerChange(name){
@@ -169,20 +308,44 @@ module.exports = function(WY){
                 WY.toast('请输入有效的验证码！');
                 return false;
             }
-            WY.trigger('send-bind-phone' , data.phone , function(){
-                wxObj.setData({
-                    doBindPhone:0,
-                });
-            });
+            data.sendType = 'BINDING';
+            WY.request({
+                url:WY.url.sms.check,
+                data:data,
+                method:'POST',
+                notBody:1,
+                success:function(a){
+                    WY.trigger('send-bind-phone' , data.phone , function(){
+                        wxObj.setData({
+                            doBindPhone:0,
+                        });
+                    });
+                }
+            })
         };
-        wxObj.sendSms = function(){
+        wxObj.sendSms = function(e){
+            if(wxObj.smsDisabled)return false;
             var phone = this.writePhoneNumber;
             if(!phone || !/^1\d{10}$/.test(phone)){
                 WY.toast('请输入有效的手机号！');
                 return false;
             }
+            WY.request({
+                url:WY.url.sms.send,
+                data:{
+                    sendType:'BINDING',
+                    phone:phone,
+                },
+                method:'POST',
+                notBody:1,
+                success:function(a){
+                    wxObj.smsDisabled = 1;
+                    WY.timer(e.target , 0 , function(){
+                        wxObj.smsDisabled = 0;
+                    });
+                }
+            })
         };
-        WY.trigger('check-session' );
         var toastTimer;
         WY.oneBind('wy-toast' ,function(txt , delay){
             clearTimeout(toastTimer);

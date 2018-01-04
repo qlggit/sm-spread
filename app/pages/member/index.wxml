@@ -3,10 +3,11 @@
 <view class="height-100-100 pt-header position-relative">
     <template is="menuHeader" data="{{menuList:menuList,menuCurrent:menuCurrent}}"></template>
     <swiper current="{{menuCurrent}}" bind:change="menuSwiperCurrentChange" class="height-100-100">
-        <block wx:for="{{dataList}}">
+        <block wx:for="{{menuList}}">
             <swiper-item  class="height-100-100">
                 <template is="searchForm" data="{{...searchData}}"></template>
-                <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,rightWidth:150,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth}}"></template>
+                <template wx:if="{{tableDataAble}}" is="tableData"
+                          data="{{searchData:searchData,pageData:pageData,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth,totalData:totalData}}"></template>
             </swiper-item>
         </block>
     </swiper>

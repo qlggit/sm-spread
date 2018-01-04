@@ -14,72 +14,96 @@ Page({
             list:[
                 {
                     title:'名称',
-                    name:'name',
+                    name:'supplierName',
                 },
                 {
                     title:'类型',
-                    name:'type',
+                    name:'typeCode',
                     type:'picker',
                     pickerData:{
                         mode:'selector',
                         value:0,
-                        range:['有额度','无额度'],
+                        range:Object.values(WY.enumData.typeCode),
                     }
                 }
             ],
             showList:[
                 {
-                    title:'Id',
-                    name:'id',
+                    title:'序号',
+                    name:'showIndex',
+                    width:'100'
+                },
+                {
+                    title:'名称',
+                    name:'supplierName',
                     width:'200'
                 },
                 {
-                    title:'昵称',
-                    name:'nickname',
-                    width:'200'
+                    title:'地址',
+                    name:'supplierAddr',
+                    width:'300'
                 },
                 {
-                    title:'手机号',
-                    name:'phone',
-                    width:'200'
+                    title:'星级',
+                    name:'supplierStar',
+                    width:'100'
                 },
                 {
-                    title:'手机号',
+                    title:'类型',
+                    name:'typeCode',
+                    width:'100',
+                    enumData:WY.enumData.typeCode
+                },
+                {
+                    title:'操作',
                     type:'btn',
                     btn:[{
-                        navigateTo:'/pages/member/consume',
+                        tap:'openLocation',
+                        data:{
+
+                        },
+                        dataset:['gps-dimension','gps-longitude'],
                         code:'',
-                        name:'详情'
+                        name:'位置'
                     }]
                 },
             ]
         },
-        dataList:[{
-
-        },{
-
-        }],
-        pageData:[],
+        notBtn:1,
         menuCurrent:0
     },
     onLoad:function(options){
         WY.wxInit(this, {
-            pickerChangeHandler:['type']
+            pickerChangeHandler:['typeCode']
         });
-        var data = [];
-        for(var i=0;i<5;i++){
-            data.push({
-                nickname:'nickname' + i,
-                id:'id'+i,
-                phone:1334567890+''+i
-            })
-        }
         this.setData({
             showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
                 return a.width || 0;
-            }),
-            pageData:data,
-            tableDataAble:1
+            })
+        });
+        var that = this;
+        WY.oneReady('get-location-wgs84' , function(data){
+        }, this);
+        WY.oneReady('user-info' , function(data){
+            that.doSearch();
+        }, this);
+    },
+    onUnload:function(){
+        WY.oneUnBind(this);
+    },
+    doSearch:function(data){
+        data = data || {};
+        data.pageNum = this.data.pageNum;
+        data.lat = WY.locationData.latitude;
+        data.lon = WY.locationData.longitude;
+        if(data.typeCode)data.typeCode = WY.enum.indexKey('typeCode',data.typeCode);
+        var that = this;
+        WY.request({
+            url:WY.url.merchant.list,
+            data:data,
+            success:function(a){
+                that.setPageData(a)
+            }
         })
     }
 });

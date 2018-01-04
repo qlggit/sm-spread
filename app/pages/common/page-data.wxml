@@ -1,5 +1,5 @@
 <template name="searchForm">
-    <form bindreset="formReset">
+    <form bindreset="searchFormReset" bindsubmit="searchFormSubmit">
         <view class="search-form clearfix back-237">
             <block wx:for="{{list}}">
                 <view class="form-line flex-between {{index%2?'float-right':'float-left'}}">
@@ -11,15 +11,18 @@
                             range="{{item.pickerData.range}}"
                             value="{{item.pickerData.value}}"
                             start="{{item.pickerData.start}}"
+                            range-key="{{item.pickerData.rangeKey}}"
                             end="{{item.pickerData.end}}"
                             bind:change="{{item.name}}PickerChange"
                     >
                         {{
                         item.pickerData.mode === 'selector'
-                        ?item.pickerData.range[item.pickerData.value]
+                        ?(item.pickerData.rangeKey
+                            ?item.pickerData.range[item.pickerData.value][item.pickerData.rangeKey]
+                            :item.pickerData.range[item.pickerData.value])
                         :(item.pickerData.value
-                        ?item.pickerData.value:
-                        ('请选择'+item.pickerData.title))
+                            ?item.pickerData.value
+                            :('请选择'+item.pickerData.title))
                         }}
                     </picker>
                     <input wx:else type="text"
@@ -38,38 +41,43 @@
     </form>
 </template>
 <template name="tableData">
-    <view class="text-center table-list head position-relative back-237" style="padding-right:{{rightWidth}}rpx;">
-        <view class="width-100-100 overflow-hidden">
-            <view style="width:{{showMainWidth}}rpx;margin-left: {{-tableScrollLeft}}px">
-            <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
-                <view wx:if="{{showItem.type!=='btn'}}"  class="table-item break-all head" style="width:{{showItem.width}}rpx;">
-                    {{showItem.title}}
-                </view>
-            </block>
-            </view>
-        </view>
-        <view wx:if="{{!notBtn}}" class="table-item right head position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
-            操作
-        </view>
-    </view>
-    <scroll-view scroll-y class="max-h-700" >
+    <scroll-view scroll-y bindscrolltolower="pageDataScrollToLower">
         <view class="position-relative text-center"
-              style="padding-right:{{notBtn?0:rightWidth}}rpx;">
-            <scroll-view scroll-x class="width-100-100"  bindscroll="tableScroll">
-                <view wx:for="{{pageData}}" class="table-list {{index%2?'back-237':'back-242'}}" style="width:{{showMainWidth}}rpx;">
+              style="padding-right:{{notBtn?0:(rightWidth||150)}}rpx;">
+            <scroll-view scroll-x class="width-100-100"  bindscroll="tableScroll back-237 head">
+                <view style="width:{{showMainWidth}}rpx;" class="flex-left table-list">
                     <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
+                        <view wx:if="{{showItem.type!=='btn'}}"  class="table-item break-none head" style="width:{{showItem.width}}rpx;">
+                            {{showItem.title}}
+                        </view>
+                    </block>
+                </view>
+                <view wx:for="{{pageData}}" class="table-list flex-left {{index%2?'back-237':'back-242'}}" style="width:{{showMainWidth}}rpx;">
+                    <block wx:for="{{searchData.showList}}" wx:for-item="showItem" wx:for-index="showIndex">
                         <view wx:if="{{showItem.type!=='btn'}}" style="width:{{showItem.width}}rpx;"  class="break-all table-item">
-                            {{item[showItem.name]}}
+                            {{showItem.name === 'showIndex'
+                            ?(index+1)
+                            :(showItem.enumData)
+                                ?showItem.enumData[item[showItem.name]]
+                                :item[showItem.name]}}
                         </view>
                     </block>
                 </view>
             </scroll-view>
-            <view wx:if="{{!notBtn}}" class="position-absolute top-0 right-0" style="width:{{rightWidth}}rpx;">
+            <view wx:if="{{!notBtn}}" class="position-absolute top-0 right-0" style="width:{{(rightWidth||150)}}rpx;">
+                <view class="table-item right" style="width:{{(rightWidth||150)}}rpx;">
+                    操作
+                </view>
                 <view wx:for="{{pageData}}" data-index="{{index}}"
                       class="table-item right flex-center inline-block"
-                      style="width:{{rightWidth}}rpx;">
+                      style="width:{{(rightWidth||150)}}rpx;">
                     <block wx:for="{{searchData.showList[searchData.showList.length-1].btn}}" wx:for-item="showItem">
-                        <button  bind:tap="navigateTo" data-link="{{showItem.navigateTo}}" class="inline-block">
+                        <button
+                                data-item="{{item}}"
+                                bind:tap="{{showItem.tap||'navigateTo'}}"
+                                data-link="{{showItem.navigateTo}}"
+                                data-params="{{showItem.params}}"
+                                class="inline-block">
                             {{showItem.name}}
                         </button>
                     </block>
@@ -77,7 +85,13 @@
             </view>
         </view>
     </scroll-view>
-
+    <view class="flex-between pt-20">
+        <view class="fz-30 pl-20">总条数{{totalData.total}},当前{{totalData.pageNum}}/{{totalData.pages}}</view>
+        <view class="flex-between width-50-100">
+            <button bindtap="showPrev" disabled="{{totalData.isFirstPage}}" data-status="{{1 - totalData.isFirstPage}}" size="mini">上一页</button>
+            <button bindtap="showNext" disabled="{{totalData.isLastPage}}" data-status="{{1 - totalData.isLastPage}}" size="mini">下一页</button>
+        </view>
+    </view>
 </template>
 <template name="menuHeader">
     <view class="flex-center position-absolute width-100-100 left-0 top-0 z-index-10 menu-main back-242">

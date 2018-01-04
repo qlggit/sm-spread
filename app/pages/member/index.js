@@ -7,7 +7,7 @@ Page({
                 name:'会员'
             },
             {
-                name:'下级'
+                name:'商家'
             }
         ],
         searchData:{
@@ -15,21 +15,13 @@ Page({
                 {
                     title:'昵称',
                     name:'nickname',
-                },
-                {
-                    title:'电话',
-                    name:'phone',
-                },
-                {
-                    title:'上级',
-                    name:'parentPhone',
                 }
             ],
             showList:[
                 {
-                    title:'Id',
-                    name:'id',
-                    width:'150'
+                    title:'用户Id',
+                    name:'userId',
+                    width:'250'
                 },
                 {
                     title:'昵称',
@@ -37,19 +29,24 @@ Page({
                     width:'150'
                 },
                 {
-                    title:'手机号',
-                    name:'phone',
-                    width:'300'
+                    title:'性别',
+                    name:'gender',
+                    width:'100',
+                    enumData:{
+                        0:'未知',
+                        1:'男',
+                        2:'女',
+                    }
                 },
                 {
-                    title:'金额',
-                    name:'money',
+                    title:'地区',
+                    name:'cityName',
                     width:'150'
                 },
                 {
-                    title:'会员等级',
+                    title:'等级',
                     name:'lvl',
-                    width:'150'
+                    width:'100'
                 },
                 {
                     title:'操作',
@@ -57,37 +54,42 @@ Page({
                     btn:[{
                         navigateTo:'/pages/member/consume',
                         code:'',
+                        params:{userId:''},
                         name:'详情'
                     }]
                 },
             ]
         },
-        dataList:[{
-
-        },{
-
-        }],
         pageData:[],
-        menuCurrent:0
+        menuCurrent:0,
+        pageNum:1,
+        tableDataAble:0,
+        autoSearch:{},
+        totalData:''
     },
     onLoad:function(options){
         WY.wxInit(this);
-        var data = [];
-        for(var i=0;i<5;i++){
-            data.push({
-                nickname:'nickname' + i,
-                id:'id'+i,
-                phone:1334567890+''+i,
-                money:WY.common.randomInt(10000 , 100),
-                lvl:WY.common.randomInt(10 , 1)
-            })
-        }
         this.setData({
             showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
                 return a.width || 0;
             }),
-            pageData:data,
-            tableDataAble:1
+        });
+        var that = this;
+        WY.oneReady('user-info' , function(data){
+            that.doSearch();
+        }, this);
+    },
+    doSearch:function(data){
+        data = data || this.data.autoSearch;
+        this.data.autoSearch = data;
+        data.pageNum = this.data.pageNum;
+        var that = this;
+        WY.request({
+            url:WY.url.member.list,
+            data:data,
+            success:function(a){
+                that.setPageData(a)
+            }
         })
-    }
+    },
 });

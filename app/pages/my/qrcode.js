@@ -16,9 +16,9 @@ Page({
         });
         var canvas = wx.createCanvasContext('my-canvas');
         WY.qrcode(canvas , {
-            text:'http://wx.yukew.com/spread/'+WY.session.userInfo.tokenModel.userId,
+            text:WY.config.spreadUrl + '/server/qrcode/spread/' + WY.session.userInfo.tokenModel.userId.split('_')[0],
             width:width,
-            height:width
+            height : width
         });
     }
 });
