@@ -1,0 +1,15 @@
+<import src="../common/page-data.wxml"></import>
+<include src="../common/init.wxml"/>
+<view>
+    <template wx:if="tableDataAble" is="tableData"
+              data="{{searchData:searchData,pageData:pageData,showMainWidth:showMainWidth}}"></template>
+    <view>
+        <view class="">
+            <view class="pt-20">已选数量:{{giveProductCount}}</view>
+            <view class="pt-20">总金额:{{giveProductAmount}}</view>
+        </view>
+        <view class="pt-20">
+            <button type="primary" bindtap="submitGive">确定</button>
+        </view>
+    </view>
+</view>

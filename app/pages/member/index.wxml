@@ -1,14 +1,25 @@
 <import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
-<view class="height-100-100 pt-header position-relative">
-    <template is="menuHeader" data="{{menuList:menuList,menuCurrent:menuCurrent}}"></template>
-    <swiper current="{{menuCurrent}}" bind:change="menuSwiperCurrentChange" class="height-100-100">
-        <block wx:for="{{menuList}}">
-            <swiper-item  class="height-100-100">
-                <template is="searchForm" data="{{...searchData}}"></template>
-                <template wx:if="{{tableDataAble}}" is="tableData"
-                          data="{{searchData:searchData,pageData:pageData,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth,totalData:totalData}}"></template>
-            </swiper-item>
-        </block>
-    </swiper>
+<view class="height-100-100  position-relative flex-row">
+    <template is="searchForm" data="{{...searchData}}"></template>
+    <scroll-view bindscrolltolower="pageDataScrollToLower">
+        <view wx:for="{{pageData}}" class="flex-between fz-30 pl-20 pr-20 pt-20 pb-20 back-white mb-20">
+            <view class="flex-left">
+                <image class="head-img border-rad-100 mr-20" src="{{item.headImg}}"></image>
+                <view>
+                    <view class="fz-30 write-ellipsis">{{item.nickname}}</view>
+                    <view class="fz-24 color-104 pt-10">{{item.genderName}}</view>
+                </view>
+            </view>
+            <view>总消费{{item.totalCostAmount || 0 }}元</view>
+            <view class="table-item">
+                <button type="mini"
+                        bindtap="navigateTo"
+                        data-link="/pages/member/consume"
+                        data-params="userId"
+                        data-item="{{item}}"
+                >订座详情</button>
+            </view>
+        </view>
+    </scroll-view>
 </view>

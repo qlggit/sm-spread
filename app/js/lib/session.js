@@ -100,11 +100,9 @@ module.exports = function(WY){
             },
             method:'POST',
             success:function(data){
+                wx.stopPullDownRefresh();
                 hasDoLogin = 1;
                 userInfo = data.result;
-                wx.setStorageSync('userInfo',JSON.stringify(userInfo));
-                session.userInfo = userInfo;
-                WY.ready('user-info',userInfo);
                 checkPhone();
             }
         });
@@ -113,21 +111,33 @@ module.exports = function(WY){
         if(!userInfo.mobile){
             if(!hasDoLogin)return checkUser();
             WY.ready('do-bind-phone');
+        }else{
+           WY.trigger('bind-phone-success');
         }
     }
+    WY.bind('bind-phone-success',function(){
+        wx.setStorageSync('userInfo',JSON.stringify(userInfo));
+        session.userInfo = userInfo;
+        WY.ready('user-info',userInfo);
+    });
     WY.bind('send-bind-phone' , function(phone , call){
         WY.request({
             url:WY.url.login.bind,
             method:'POST',
             data:{
-                userId:session.userInfo.tokenModel.userId,
-                phone:phone
+                userId:userInfo.tokenModel.userId,
+                phone:phone,
+                sType:'weixin',
+                bindWay:'y',
+                uid:loginData.unionId
             },
             notBody:1,
             success:function(a){
-                session.userInfo.mobile = phone;
-                WY.newToast(a.message);
-                call && call(a.code - 0 === 10000);
+                userInfo = session.userInfo = a.result;
+                WY.ready('user-info' , session.userInfo);
+                WY.toast(a.message);
+                WY.trigger('bind-phone-success');
+                call && call(1);
             }
         })
     });
@@ -135,8 +145,13 @@ module.exports = function(WY){
         checkUser();
     });
     WY.session.getTokenInfo = function(){
-        if(!session.userInfo || !session.userInfo.tokenModel)return ''
-       return [session.userInfo.tokenModel.userId,session.userInfo.tokenModel.token].join('_');
-    }
+        userInfo = session.userInfo || userInfo ;
+        if(!userInfo)return '';
+       return [userInfo.tokenModel.userId,userInfo.tokenModel.token].join('_');
+    };
+    WY.bind('user-info-flush',checkUser);
     WY.ready('wx-authorize-userInfo',checkSession);
+    WY.session.isOwner = function(userId){
+        return userId === session.userInfo.userId.split('-')[0];
+    }
 };

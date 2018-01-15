@@ -1,0 +1,29 @@
+<import src="../common/init.wxml"></import>
+<view class="height-100-100 position-relative">
+    <form bindsubmit="doWithdraw" >
+        <view class="pl-20 pr-20 pl-20 pr-20" >
+            <view class="pt-10 pb-10 clearfix ">我的余额：{{balance}} </view>
+            <view class="pt-20 flex-between">
+                <label>提现金额</label>
+                <input class="back-white" type="text" name="amount"/>
+            </view>
+            <vie class="pt-20 flex-between">
+                <label>提现方式</label>
+                <view>
+                    <radio-group class="flex-left" bindchange="withdrawTypeValue">
+                        <label wx:for="{{withdrawTypes}}" class="flex-left mr-20">
+                            <radio value="{{index}}" checked="{{index===withdrawTypeIndex}}"/><text>{{item.title}}</text>
+                        </label>
+                    </radio-group>
+                </view>
+            </vie>
+            <view class="pt-20 flex-between">
+                <label>提现账号</label>
+                <input class="back-white" type="text" name="account"/>
+            </view>
+            <view class="pt-20">
+                <button type="primary" form-type="submit">提交申请</button>
+            </view>
+        </view>
+    </form>
+</view>

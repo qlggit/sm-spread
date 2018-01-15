@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText":"赠送商品" ,
+"usingComponents": {
+"number-select": "/pages/component/number-select"
+}
+}

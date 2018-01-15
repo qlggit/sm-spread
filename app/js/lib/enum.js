@@ -5,6 +5,11 @@ module.exports = function(WY){
             bar:'酒吧',
             clear:'清吧',
             ktv:'KTV',
+        },
+        gender:{
+            1:'男',
+            2:'女',
+            3:'未知',
         }
     };
     WY.enum = {

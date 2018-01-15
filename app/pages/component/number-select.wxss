@@ -1,0 +1,13 @@
+.img-ico{
+    width: 36rpx;
+    height: 36rpx;
+}
+.width-120{
+    width: 120rpx;
+}
+.flex-between{
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+}

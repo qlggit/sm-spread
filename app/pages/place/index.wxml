@@ -1,6 +1,5 @@
 <import src="../common/page-data.wxml"></import>
-<view class="height-100-100 pt-header position-relative">
-    <template is="menuHeader" data="{{menuList:menuList,menuCurrent:menuCurrent}}"></template>
+<view class="height-100-100  position-relative">
     <swiper current="{{menuCurrent}}" bind:change="menuSwiperCurrentChange" class="height-100-100">
         <block wx:for="{{menuList}}">
             <swiper-item  class="height-100-100">

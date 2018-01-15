@@ -68,12 +68,6 @@ module.exports = function(obj){
                 return data + '';
             }
         };
-        obj.clearNull = function(data){
-            if(data)for(var key in data){
-                if(data[key] === null)data[key] = '';
-            }
-            return data;
-        };
         obj.keyArray = function(data){
             if(data)for(var key in data){
                 if(/\[\d+\]/.test(key)){
@@ -99,12 +93,17 @@ module.exports = function(obj){
             var sum = 0;
             data.forEach(function(a){
                 sum += func(a) - 0;
-            })
+            });
             return sum;
-        }
+        };
         obj.copyProp = function(o , prop){
             var rt = {};
-            for(var key in prop){
+            if(Array.isArray(prop)){
+                prop.forEach(function(key , i){
+                    rt[key] = o[key];
+                })
+            }
+            else for(var key in prop){
                 rt[key] = o[key];
             }
             return rt;

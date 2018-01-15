@@ -19,13 +19,13 @@ Page({
             ],
             showList:[
                 {
-                    title:'用户Id',
-                    name:'userId',
-                    width:'250'
-                },
-                {
                     title:'昵称',
                     name:'nickname',
+                    width:'150'
+                },
+                {
+                    title:'消费',
+                    name:'totalCostAmount',
                     width:'150'
                 },
                 {
@@ -33,7 +33,7 @@ Page({
                     name:'gender',
                     width:'100',
                     enumData:{
-                        0:'未知',
+                        3:'未知',
                         1:'男',
                         2:'女',
                     }
@@ -65,7 +65,6 @@ Page({
         pageNum:1,
         tableDataAble:0,
         autoSearch:{},
-        totalData:''
     },
     onLoad:function(options){
         WY.wxInit(this);
@@ -75,7 +74,7 @@ Page({
             }),
         });
         var that = this;
-        WY.oneReady('user-info' , function(data){
+        WY.oneReadyOnce('user-info' , function(data){
             that.doSearch();
         }, this);
     },
@@ -85,10 +84,15 @@ Page({
         data.pageNum = this.data.pageNum;
         var that = this;
         WY.request({
-            url:WY.url.member.list,
+            url:WY.url.member.spreadLs,
             data:data,
             success:function(a){
-                that.setPageData(a)
+                console.log(a);
+                that.pageDataHandler(a,function(a){
+                    a.genderName = WY.enum.text('gender',a.gender);
+                    return a;
+                });
+                that.setAllPageData(a);
             }
         })
     },

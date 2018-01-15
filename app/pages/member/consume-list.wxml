@@ -1,7 +1,13 @@
 <import src="../common/page-data.wxml"></import>
+<include src="../common/init.wxml"/>
 <view class="height-100-100 position-relative pl-20 pt-20 pr-20">
-    <view class="pt-10 pb-10">所在场所：xx酒吧</view>
-    <view class="pt-10 pb-10">总消费：5000</view>
-    <view class="pt-10 pb-10">消费时间：2017-11-11</view>
-    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,notBtn:1,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth}}"></template>
+    <view class="pt-10 pb-10">所在场所：{{showData.supplierName}}</view>
+    <view class="pt-10 pb-10">消费数量：{{showData.number}}</view>
+    <view class="pt-10 pb-10">总消费：{{showData.amount}}</view>
+    <view class="pt-10 pb-10">赠送数量：{{showData.giveNumber}}</view>
+    <view class="pt-10 pb-10">总赠送：{{showData.giveAmount}}</view>
+    <view class="pt-10 pb-10">订座时间：{{showData.bookTime}}</view>
+    <view class="pt-10 pb-10" wx:if="{{showData.arrivedTime}}">消费时间：{{showData.arrivedTime}}</view>
+    <view class="pt-10 pb-10" wx:if="{{showData.giveAble}}"><button bindtap="doGive" data-options="{{showData}}">赠送</button></view>
+    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,notBtn:1,showMainWidth:showMainWidth}}"></template>
 </view>

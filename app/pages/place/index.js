@@ -44,8 +44,8 @@ Page({
                     width:'300'
                 },
                 {
-                    title:'星级',
-                    name:'supplierStar',
+                    title:'ID',
+                    name:'supplierId',
                     width:'100'
                 },
                 {
@@ -84,7 +84,7 @@ Page({
         var that = this;
         WY.oneReady('get-location-wgs84' , function(data){
         }, this);
-        WY.oneReady('user-info' , function(data){
+        WY.oneReadyOnce('user-info' , function(data){
             that.doSearch();
         }, this);
     },

@@ -16,7 +16,7 @@ Page({
         });
         var canvas = wx.createCanvasContext('my-canvas');
         WY.qrcode(canvas , {
-            text:WY.config.spreadUrl + '/server/qrcode/spread/' + WY.session.userInfo.tokenModel.userId.split('_')[0],
+            text:WY.config.spreadUrl + '/server/qrcode/spread/' + WY.session.userInfo.userId,
             width:width,
             height : width
         });

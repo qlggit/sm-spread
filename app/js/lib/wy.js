@@ -12,6 +12,7 @@ require('./jq')(WY);
 require('./enum')(WY);
 require('./gps')(WY);
 require('./timer')(WY);
+require('./window')(WY);
 require('./wx.picker.data')(WY);
 WY.config = require('../../config');
 WY.url = require('./url')(WY.config);

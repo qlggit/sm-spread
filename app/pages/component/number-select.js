@@ -1,0 +1,24 @@
+Component({
+    properties:{
+        item:{
+            type:Object,
+        }
+    },
+    data:{
+        number:0,
+    },
+    methods:{
+        reduceNumber:function(){
+            this.setData({
+                number:this.data.number-1
+            });
+            global.WY.trigger('number-select',this.dataset);
+        },
+        plusNumber:function(){
+            this.setData({
+                number:this.data.number+1
+            })
+            global.WY.trigger('number-select',this.data,this.dataset);
+        }
+    }
+});

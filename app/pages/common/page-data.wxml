@@ -44,7 +44,7 @@
     <scroll-view scroll-y bindscrolltolower="pageDataScrollToLower">
         <view class="position-relative text-center"
               style="padding-right:{{notBtn?0:(rightWidth||150)}}rpx;">
-            <scroll-view scroll-x class="width-100-100"  bindscroll="tableScroll back-237 head">
+            <scroll-view scroll-x class="width-100-100 back-237 head">
                 <view style="width:{{showMainWidth}}rpx;" class="flex-left table-list">
                     <block wx:for="{{searchData.showList}}" wx:for-item="showItem">
                         <view wx:if="{{showItem.type!=='btn'}}"  class="table-item break-none head" style="width:{{showItem.width}}rpx;">
@@ -54,25 +54,38 @@
                 </view>
                 <view wx:for="{{pageData}}" class="table-list flex-left {{index%2?'back-237':'back-242'}}" style="width:{{showMainWidth}}rpx;">
                     <block wx:for="{{searchData.showList}}" wx:for-item="showItem" wx:for-index="showIndex">
-                        <view wx:if="{{showItem.type!=='btn'}}" style="width:{{showItem.width}}rpx;"  class="break-all table-item">
-                            {{showItem.name === 'showIndex'
-                            ?(index+1)
-                            :(showItem.enumData)
-                                ?showItem.enumData[item[showItem.name]]
-                                :item[showItem.name]}}
-                        </view>
+                            <view wx:if="{{showItem.type!=='btn'}}" style="width:{{showItem.width}}rpx;"  class="break-all table-item">
+                                <image wx:if="{{showItem.dataType==='img'}}" src="{{item[showItem.name]}}" class="list-item-ico">
+                                </image>
+                                <block wx:else >
+                                    {{
+                                    showItem.name === 'showIndex'
+                                    ?
+                                    (index+1)
+                                    :(showItem.enumData
+                                    ?showItem.enumData[item[showItem.name]]
+                                    :(showItem.dataType==='money'?(item[showItem.name]/100):item[showItem.name])
+                                    )
+                                    }}
+                                </block>
+                            </view>
                     </block>
                 </view>
             </scroll-view>
             <view wx:if="{{!notBtn}}" class="position-absolute top-0 right-0" style="width:{{(rightWidth||150)}}rpx;">
                 <view class="table-item right" style="width:{{(rightWidth||150)}}rpx;">
-                    操作
+                    {{searchData.showList[searchData.showList.length-1].name||'操作'}}
                 </view>
                 <view wx:for="{{pageData}}" data-index="{{index}}"
-                      class="table-item right flex-center inline-block"
+                      class="table-item right flex-center inline-block text-center"
                       style="width:{{(rightWidth||150)}}rpx;">
-                    <block wx:for="{{searchData.showList[searchData.showList.length-1].btn}}" wx:for-item="showItem">
+                    <block wx:if="{{searchData.showList[searchData.showList.length-1].btnType==='numberSelect'}}">
+                        <number-select data-item="{{item}}" data-index="{{index}}" ></number-select>
+                    </block>
+                    <block wx:else >
                         <button
+                                wx:for="{{searchData.showList[searchData.showList.length-1].btn}}"
+                                wx:for-item="showItem"
                                 data-item="{{item}}"
                                 bind:tap="{{showItem.tap||'navigateTo'}}"
                                 data-link="{{showItem.navigateTo}}"
@@ -85,7 +98,7 @@
             </view>
         </view>
     </scroll-view>
-    <view class="flex-between pt-20">
+    <view class="flex-between pt-20" wx:if="{{totalData}}">
         <view class="fz-30 pl-20">总条数{{totalData.total}},当前{{totalData.pageNum}}/{{totalData.pages}}</view>
         <view class="flex-between width-50-100">
             <button bindtap="showPrev" disabled="{{totalData.isFirstPage}}" data-status="{{1 - totalData.isFirstPage}}" size="mini">上一页</button>

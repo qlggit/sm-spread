@@ -10,6 +10,9 @@ function prop(obj , key , func){
 prop(Number , 'toMoney' , function(){
   return this.toFixed(2) - 0;
 });
+prop(String , 'toMoney' , function(){
+  return (this-0).toFixed(2) - 0;
+});
 prop(Number , 'turnMoney' , function(){
   return (this/100).toFixed(2);
 });
@@ -64,6 +67,22 @@ prop(Array , 'findIndex' , function(func){
   return -1;
 });
 
+prop(Array , 'clearNull' , function(func){
+    var arr = this;
+    this.forEach(function(a , i){
+        if(a == null)arr[i] = '';
+        else if(typeof a === 'object')arr[i] = a.clearNull();
+    });
+    return this;
+});
+prop(Object , 'clearNull' , function(func){
+    for(var key in this){
+        var  o = this[key];
+        if(o == null)this[key] = '';
+        else if(typeof o === 'object')this[key] = o.clearNull();
+    }
+    return this;
+});
 
 
 if(!Object.values){

@@ -5,9 +5,11 @@
     "pages/member/consume-list",
     "pages/place/index",
     "pages/withdraw/index",
+    "pages/withdraw/info",
     "pages/count/index",
     "pages/my/index",
-    "pages/my/qrcode"
+    "pages/my/qrcode",
+    "pages/my/give"
   ],
   "window": {
     "navigationBarTitleText":"娱客营销系统",

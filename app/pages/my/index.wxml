@@ -1,20 +1,20 @@
 <view class="height-100-100">
    <view class="pl-20 pr-20">
-       <view class="clearfix pt-10 pb-10">
+       <view class="flex-between pt-10 pb-10">
            <text>昵称</text>
-           <text class="float-right">昵称</text>
+           <text class="">{{userInfo.nickname}}</text>
        </view>
-       <view class="clearfix pt-10 pb-10">
+       <view class="flex-between pt-10 pb-10">
            <text>id</text>
-           <text class="float-right">id</text>
+           <text class="">{{userInfo.userId}}</text>
        </view>
-       <view class="clearfix pt-10 pb-10">
+       <view class="flex-between pt-10 pb-10">
            <text>电话</text>
-           <text class="float-right">13123412341</text>
+           <text class="">{{userInfo.mobile}}</text>
        </view>
-       <view class="clearfix pt-10 pb-10">
+       <view class="flex-between pt-10 pb-10">
            <text>余额</text>
-           <text class="float-right">6000</text>
+           <text class="">{{userInfo.balance/100}}</text>
        </view>
        <view class="pt-10 pb-10" bind:tap="navigateTo" data-link="/pages/my/qrcode" >
            <view>我的推广二维码</view>

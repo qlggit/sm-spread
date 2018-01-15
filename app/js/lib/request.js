@@ -21,9 +21,10 @@ var request = function(options){
                 global.WY.trigger('request-error-401');
             }
             if(data && (data.code === '10000' || data.code === 0)){
-                success && success(data);
+                if(!data.data)data.data=data.result;
+                success && success(data.clearNull());
             }else{
-                global.WY.toast(data && data.message || '系统繁忙！' , 1);
+                if(!options.notToast)global.WY.toast(data && data.message || '系统繁忙！' , 1);
             }
             done && done(res);
         },

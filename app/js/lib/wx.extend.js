@@ -63,65 +63,27 @@ module.exports = function(WY){
         })
     }
     doAuthorizeAll();
-    WY.loading = function(msg){
-        wx.showLoading({
-            title:msg || '加载中',
-            mask:true
-        })
-    };
-    WY.toast = function(msg , type){
-        var sendData;
-        if(typeof msg ==='object'){
-            sendData = msg;
-            if(sendData.done){
-                setTimeout(sendData.done , sendData.duration || 1500);
-            }
-        }
-        else{
-            if(msg)msg+='';
-            sendData = {
-                title:msg || '加载中',
-                mask:true,
-            };
-        }
-        if(type || sendData.type){
-            sendData.image = '/images/warn.png'
-        }
-        wx.showToast(sendData)
-    };
-    WY.newToast = function(msg , delay){
-        msg+='';
-        WY.trigger('wy-toast' , msg , delay);
-    };
-    WY.onShareAppMessage = function(title , url){
-        return {
-            title: title||'娱客',
-            path: url || '/pages/index',
-            success: function(res) {
-                // 转发成功
-            },
-            fail: function(res) {
-                // 转发失败
-            }
-        };
-    };
     //绑定事件相关
     WY.oneReady = function(type , func , oneObj){
+        oneObj = oneObj || WY.autoWxObj;
         oneObj.vueWyHandler = oneObj.vueWyHandler || [];
         oneObj.vueWyHandler.push(oneObj);
         WY.ready(type , func);
     };
     WY.oneReadyOnce = function(type , func , oneObj){
+        oneObj = oneObj || WY.autoWxObj;
         oneObj.vueWyHandler = oneObj.vueWyHandler || [];
         oneObj.vueWyHandler.push(oneObj);
         WY.readyOnce(type , func);
     };
     WY.oneBind = function(type , func , oneObj){
+        oneObj = oneObj || WY.autoWxObj;
         oneObj.vueWyHandler = oneObj.vueWyHandler || [];
         oneObj.vueWyHandler.push(oneObj);
         WY.bind(type , func);
     };
     WY.oneUnBind = function(oneObj){
+        oneObj = oneObj || WY.autoWxObj;
         var vueWyHandler = oneObj.vueWyHandler;
         if(vueWyHandler){
             vueWyHandler.forEach(function(a){
@@ -129,7 +91,40 @@ module.exports = function(WY){
             })
         }
     };
+    var toastTimer;
+    WY.bind('wy-toast' ,function(txt , delay){
+        clearTimeout(toastTimer);
+        if(WY.autoWxObj)WY.autoWxObj.setData({
+            doShowToast:1,
+            showToastContent:txt
+        });
+        toastTimer = setTimeout(function(){
+            if(WY.autoWxObj)WY.autoWxObj.setData({
+                doShowToast:0
+            })
+        } , delay || 1500);
+    });
+    var confirmCall;
+    WY.bind('wy-confirm' ,function(txt , call){
+        confirmCall = call;
+        if(WY.autoWxObj)WY.autoWxObj.setData({
+            doShowConfirm:1,
+            showConfirmContent:txt
+        });
+    });
+    WY.bind('get-product',function(supplierId , call){
+        WY.request({
+            url:WY.url.product.list,
+            data:{
+                supplierId:supplierId,
+            },
+            success:function(a){
+                call && call(a.data);
+            }
+        })
+    });
     WY.wxInit = function(wxObj , options){
+        WY.autoWxObj = wxObj;
         options = options || {};
         wxObj.allEventHandler = function(){
 
@@ -151,12 +146,11 @@ module.exports = function(WY){
         wxObj.navigateTo = function(e){
             var dataset = e.currentTarget.dataset;
             var link = dataset.link;
-            console.log(dataset);
             if(link){
                 var item = dataset.item;
                 var params = dataset.params;
                 if(params){
-                    link = WY.common.addUrlParam(link , WY.common.copyProp(item,params))
+                    link = WY.common.addUrlParam(link , WY.common.copyProp(item,params.split(',')))
                 }
                 wx.navigateTo({
                     url:link
@@ -171,7 +165,6 @@ module.exports = function(WY){
         };
         if(!wxObj.searchFormReset){
             wxObj.searchFormReset = function(){
-                console.log('searchFormReset');
                 var searchData = this.data.searchData;
                 var hasPickerReset = 0;
                 searchData.list.forEach(function(a){
@@ -187,7 +180,6 @@ module.exports = function(WY){
         }
         if(!wxObj.searchFormSubmit){
             wxObj.searchFormSubmit = function(e){
-                console.log('searchFormSubmit');
                 this.reset();
                 this.doSearch(e.detail.value);
             }
@@ -223,6 +215,18 @@ module.exports = function(WY){
                 })
             }
         }
+        if(!wxObj.setAllPageData){
+            wxObj.setAllPageData = function(a){
+                wxObj.setData({
+                    pageData:wxObj.data.pageData.concat(a.result.list),
+                })
+            }
+        }
+        if(!wxObj.pageDataHandler){
+            wxObj.pageDataHandler = function(a,func){
+                a.result.list = a.result.list.map(func);
+            }
+        }
         if(!wxObj.reset){
             wxObj.setData({
                 pageNum:1,
@@ -238,6 +242,24 @@ module.exports = function(WY){
             wxObj.pageDataScrollToLower = function(){
                 this.data.pageNum++;
                 this.doSearch();
+            }
+        }
+        if(!wxObj.doGive){
+            WY.oneBind('do-give',function(supplierId){
+                wxObj.doGive(null  , supplierId);
+            },wxObj);
+            wxObj.doGive = function(e , supplierId){
+                var options;
+                if(supplierId){
+                    options = {
+                        supplierId:supplierId
+                    }
+                }else{
+                    options = e.currentTarget.dataset.options;
+                }
+                wx.navigateTo({
+                    url:WY.common.addUrlParam('/pages/my/give' , options)
+                });
             }
         }
         if(!wxObj.openLocation){
@@ -346,18 +368,22 @@ module.exports = function(WY){
                 }
             })
         };
-        var toastTimer;
-        WY.oneBind('wy-toast' ,function(txt , delay){
-            clearTimeout(toastTimer);
+        wxObj.doHideConfirm = function(){
+            if(confirmCall && confirmCall(0) === false){
+                return false;
+            }
             wxObj.setData({
-                doShowToast:1,
-                showToastContent:txt
+                doShowConfirm:0,
             });
-            toastTimer = setTimeout(function(){
-                wxObj.setData({
-                    doShowToast:0
-                })
-            } , delay || 1500);
-        } , wxObj);
+        };
+        wxObj.doSubmitConfirm = function(){
+            if(confirmCall && confirmCall(1) === false){
+                return false;
+            }
+            wxObj.setData({
+                doShowConfirm:0,
+            });
+        };
+
     }
 };

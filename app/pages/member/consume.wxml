@@ -1,5 +1,23 @@
 <import src="../common/page-data.wxml"></import>
-<view class="height-100-100 position-relative">
+<include src="../common/init.wxml"/>
+<view class="height-100-100 position-relative flex-row">
     <template is="searchForm" data="{{...searchData}}"></template>
-    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,rightWidth:150,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth}}"></template>
+    <scroll-view bindscrolltolower="pageDataScrollToLower">
+        <view wx:for="{{pageData}}" class="flex-between fz-30 pl-20 pr-20 pt-20 pb-20 back-white mb-20">
+            <view class="width-20-100">{{item.supplierName}}</view>
+            <view class="break-none">{{item.seatName}}</view>
+            <view>
+                <view>订座时间{{item.bookTime}}</view>
+                <view class="pt-10">最低消费{{item.lowCostAmount}}</view>
+            </view>
+            <view class="table-item">
+                <button type="mini"
+                        bindtap="navigateTo"
+                        data-link="/pages/member/consume-list"
+                        data-params="userId,orderNo"
+                        data-item="{{item}}"
+                >详情</button>
+            </view>
+        </view>
+    </scroll-view>
 </view>
