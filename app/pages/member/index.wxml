@@ -1,24 +1,41 @@
 <import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
 <view class="height-100-100  position-relative flex-row">
-    <template is="searchForm" data="{{...searchData}}"></template>
-    <scroll-view bindscrolltolower="pageDataScrollToLower">
-        <view wx:for="{{pageData}}" class="flex-between fz-30 pl-20 pr-20 pt-20 pb-20 back-white mb-20">
+    <view class="pt-16 pb-16 pr-24 pl-24">
+        <view class="border-rad-10 back-white flex-center border-221">
+            <view class="width-50-100 flex-end" bindtap="doSearch">
+                <image class="search-ico mr-20" src="/images/search.png"/>
+            </view>
+            <view class="width-50-100">
+                <input type="text" confirm-type="search" bindinput="searchInput" bindconfirm="doSearch"
+                       class="fz-28" placeholder="输入查询条件"/>
+            </view>
+        </view>
+    </view>
+    <scroll-view bindscrolltolower="pageDataScrollToLower" class="flex-grow">
+        <view wx:for="{{pageData}}" class="flex-between fz-32 table-list back-white pl-48 pr-48">
             <view class="flex-left">
-                <image class="head-img border-rad-100 mr-20" src="{{item.headImg}}"></image>
-                <view>
-                    <view class="fz-30 write-ellipsis">{{item.nickname}}</view>
-                    <view class="fz-24 color-104 pt-10">{{item.genderName}}</view>
+                <image class="head-img border-rad-100" src="{{item.headImg}}"></image>
+                <view class="pl-24">
+                    <view class="write-ellipsis mb-20">{{item.nickname}}</view>
+                    <view class="color-104">
+                        <image class="ico-sm mr-14" src="/images/{{item.gender==2?'female':'male'}}.png"></image>
+                        <image class="ico-sm" src="/images/wd_vip.png"></image>
+                    </view>
                 </view>
             </view>
-            <view>总消费{{item.totalCostAmount || 0 }}元</view>
+            <view class="text-left">
+                <view class="mb-20">{{item.totalCostAmount>10000000?(item.totalCostAmount/1000000):(item.totalCostAmount/100)}}</view>
+                <view class="fz-22 color-104">总消费({{item.totalCostAmount>10000000?'万':''}}元)</view>
+            </view>
             <view class="table-item">
                 <button type="mini"
                         bindtap="navigateTo"
                         data-link="/pages/member/consume"
                         data-params="userId"
                         data-item="{{item}}"
-                >订座详情</button>
+                        class="border-rad-10 color-white back-24"
+                >查看详情</button>
             </view>
         </view>
     </scroll-view>

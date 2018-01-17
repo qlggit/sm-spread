@@ -1,4 +1,3 @@
-<import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
 <view class="height-100-100 position-relative flex-row">
     <view class="pt-16 pb-16 pr-24 pl-24 flex-between">
@@ -30,26 +29,14 @@
         <button class="search-btn border-24 border-rad-10 color-24" bindtap="doSearch">查询</button>
     </view>
     <scroll-view bindscrolltolower="pageDataScrollToLower" class="flex-grow">
-        <view wx:for="{{pageData}}" class="flex-between  back-white table-list  table-padding table-137 color-24 fz-28 text-center">
-            <view class="width-194 border-r-221">
-                <view class="write-ellipsis mb-16">{{item.supplierName}}</view>
-                <view class="fz-22 color-104">酒吧</view>
+        <view wx:for="{{pageData}}" class="back-white table-list table-137 color-24 fz-28 pt-32 pl-24 pr-24">
+            <view class="flex-between mb-20 fz-30 color-24">
+                <view>{{item.typeName}}</view>
+                <view>{{item.statusName}}</view>
             </view>
-            <view class="width-194 border-r-221">
-                <view class="mb-16">{{item.seatName}}</view>
-                <view class="fz-22 color-104">最低:{{item.lowCostAmount/100}}元</view>
-            </view>
-            <view class="width-230 border-r-221">
-                <view class="mb-16">{{item.bookTime.slice(0,10)}}</view>
-                <view class="fz-22 color-104">订桌时间</view>
-            </view>
-            <view class="table-item width-134">
-                <button class="sm border-24"
-                        bindtap="navigateTo"
-                        data-link="/pages/member/consume-list"
-                        data-params="userId,orderNo"
-                        data-item="{{item}}"
-                >详情</button>
+            <view class="flex-between color-104 fz-22">
+                <view>{{item.account}}</view>
+                <view>{{item.rowAddTime}}</view>
             </view>
         </view>
     </scroll-view>

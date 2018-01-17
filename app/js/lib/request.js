@@ -7,6 +7,8 @@ var request = function(options){
         if(options.data.pageNum > -1){
             if(!options.data.pageSize)options.data.pageSize = 10;
         }
+        if(options.data.startDate)options.data.startDate = options.data.startDate.startTime();
+        if(options.data.endDate)options.data.endDate = options.data.endDate.endTime();
     }
     if(options.method === 'POST' && options.notBody){
         header['Content-Type'] = 'application/x-www-form-urlencoded';

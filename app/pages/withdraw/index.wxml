@@ -1,13 +1,18 @@
-<import src="../common/page-data.wxml"></import>
-<view class="height-100-100 position-relative">
-    <view class="pl-20 pr-20">
-        <view class="pt-10 pb-10 clearfix lh-btn ">我的余额：{{balance}} <button class="float-right" type="primary"
-                                                                            bind:tap="navigateTo"
-                                                                            data-link="/pages/withdraw/info"
-        >申请提现</button></view>
-        <view class="pt-10 pb-10">提现记录</view>
-        <template is="searchForm" data="{{...searchData}}"></template>
-        <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,notBtn:150,tableScrollLeft:tableScrollLeft,showMainWidth:showMainWidth}}"></template>
+<include src="../common/init.wxml"/>
+<view class="height-100-100 position-relative pt-64 text-center">
+    <image class="margin-auto ico-big" src="/images/money.png"></image>
+    <view class="pt-64">
+        <view class="color-104 fz-22">我的余额</view>
+        <view class="pt-32 color-24 fz-40">{{balance}}</view>
+        <view class="pt-80">
+            <button bind:tap="navigateTo"
+                    data-link="/pages/withdraw/info"
+                    class="btn-big border-rad-10 border-24 back-24 color-white">申请提现</button>
+        </view>
+        <view class="pt-58">
+            <button bind:tap="navigateTo"
+                    data-link="/pages/withdraw/list"
+                    class="btn-big border-rad-10 border-24 color-24">查看明细</button>
+        </view>
     </view>
-
 </view>

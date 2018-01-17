@@ -2,94 +2,41 @@ var WY = global.WY;
 Page({
     name:'member-index',
     data:{
-        searchData:{
-            list:[
-                {
-                    title:'开始时间',
-                    name:'startDate',
-                    type:'picker',
-                    pickerData:{
-                        title:'日期',
-                        mode:'date',
-                        end:WY.common.parseDate(new Date , 'Y-m-d'),
-                        value:0,
-                    }
-                },
-                {
-                    title:'结束时间',
-                    name:'endDate',
-                    type:'picker',
-                    pickerData:{
-                        title:'日期',
-                        mode:'date',
-                        end:WY.common.parseDate(new Date , 'Y-m-d'),
-                        value:0,
-                    }
-                }
-            ],
-            showList:[
-                {
-                    title:'日期',
-                    name:'date',
-                    width:'150'
-                },
-                {
-                    title:'订单',
-                    name:'orderNo',
-                    width:'250'
-                },
-                {
-                    title:'场所',
-                    name:'place',
-                    width:'250'
-                },
-                {
-                    title:'最低消费',
-                    name:'amount',
-                    width:'150'
-                },
-                {
-                    title:'操作',
-                    type:'btn',
-                    btn:[{
-                        navigateTo:'/pages/member/consume-list',
-                        code:'',
-                        params:{
-                            orderNo:'',
-                            userId:'',
-                        },
-                        name:'详情'
-                    }]
-                },
-            ]
+        endTime:WY.common.parseDate(new Date , 'Y-m-d'),
+        pickerData:{
+            startDate:{
+                value:0,
+            },
+            endDate:{
+                value:0,
+            } ,
         },
-        dataList:[{
-
-        },{
-
-        }],
+        pageNum:1,
         pageData:[]
     },
     onLoad:function(options){
-        WY.wxInit(this);
-        this.options = options;
-        this.setData({
-            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
-                return a.width || 0;
-            }),
+        WY.wxInit(this , {
+            pickerChangeHandler: ['startDate', 'endDate']
         });
+        this.options = options;
         this.doSearch();
     },
-    doSearch:function(){
+    doSearch:function(e){
         var that = this;
+        if(e){
+            this.reset();
+        }
+        var data = {
+            payStatus:'ALREADY_PAY',
+            userId:this.options.userId,
+            pageNum:this.data.pageNum,
+            pageSize:this.data.pageSize,
+        };
+        data.startDate = this.data.pickerData.startDate.value || '';
+        data.endDate = this.data.pickerData.endDate.value || '';
         WY.request({
             url:WY.url.order.seat,
-            data:{
-                payStatus:'ALREADY_PAY',
-                userId:this.options.userId,
-                pageNum:this.data.pageNum,
-                pageSize:this.data.pageSize,
-            },
+            data:data,
             success:function(a){
                 that.pageDataHandler(a,function(a,i){
                     a.date = WY.common.parseDate(a.bookTime , 'Y-m-d');

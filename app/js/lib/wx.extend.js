@@ -163,47 +163,10 @@ module.exports = function(WY){
                 tableScrollTop:e.detail.scrollTop,
             })
         };
-        if(!wxObj.searchFormReset){
-            wxObj.searchFormReset = function(){
-                var searchData = this.data.searchData;
-                var hasPickerReset = 0;
-                searchData.list.forEach(function(a){
-                    if(a.type === 'picker'){
-                        hasPickerReset = 1;
-                        a.pickerData.value = 0;
-                    }
-                });
-                if(hasPickerReset)this.setData({
-                    searchData:searchData
-                })
-            }
-        }
         if(!wxObj.searchFormSubmit){
             wxObj.searchFormSubmit = function(e){
                 this.reset();
                 this.doSearch(e.detail.value);
-            }
-        }
-        if(!wxObj.showPrev){
-            wxObj.showPrev = function(e){
-                if(e.target.dataset.status - 0 === 1){
-                    wxObj.setData({
-                        pageNum:wxObj.data.pageNum - 1,
-                        pageData:[],
-                    });
-                    wxObj.doSearch();
-                }
-            }
-        }
-        if(!wxObj.showNext){
-            wxObj.showNext = function(e){
-                if(e.target.dataset.status - 0 === 1){
-                    wxObj.setData({
-                        pageNum:wxObj.data.pageNum + 1,
-                        pageData:[],
-                    });
-                    wxObj.doSearch();
-                }
             }
         }
         if(!wxObj.setPageData){
@@ -277,23 +240,11 @@ module.exports = function(WY){
         }
         function pickerChange(name){
             return function(e){
-                var searchData = this.data.searchData;
-                var list;
-                if(Array.isArray(searchData)){
-                    list = searchData[this.menuCurrent].list;
-                }else{
-                    list = searchData.list;
-                }
-                if(list && !list.every(function(a){
-                        if(a.type === 'picker' && a.name === name){
-                            a.pickerData.value = e.detail.value;
-                            return false;
-                        }
-                        return true;
-                    }))
-                    this.setData({
-                        searchData:searchData
-                    })
+                var pickerData = this.data.pickerData[name];
+                pickerData.value = e.detail.value;
+                this.setData({
+                    pickerData:this.data.pickerData
+                })
             }
         }
         if(options.pickerChangeHandler){
@@ -301,8 +252,6 @@ module.exports = function(WY){
                 wxObj[a+'PickerChange'] = pickerChange(a);
             });
         }
-
-
 
         wxObj.getPhoneNumber = function(data){
             if(data.iv)WY.trigger('de-key-info',data , function(o){

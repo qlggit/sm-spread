@@ -1,29 +1,31 @@
-<import src="../common/init.wxml"></import>
+<include src="../common/init.wxml"/>
 <view class="height-100-100 position-relative">
     <form bindsubmit="doWithdraw" >
-        <view class="pl-20 pr-20 pl-20 pr-20" >
-            <view class="pt-10 pb-10 clearfix ">我的余额：{{balance}} </view>
-            <view class="pt-20 flex-between">
-                <label>提现金额</label>
-                <input class="back-white" type="text" name="amount"/>
-            </view>
-            <vie class="pt-20 flex-between">
-                <label>提现方式</label>
-                <view>
-                    <radio-group class="flex-left" bindchange="withdrawTypeValue">
-                        <label wx:for="{{withdrawTypes}}" class="flex-left mr-20">
-                            <radio value="{{index}}" checked="{{index===withdrawTypeIndex}}"/><text>{{item.title}}</text>
+        <view >
+            <view class="pl-30 flex-between flex-top border-b-221">
+                <view class="pr-42 fz-28 color-104 pt-42 width-160 text-right">提现方式</view>
+                <view class="flex-grow">
+                    <radio-group bindchange="withdrawTypeValue">
+                        <label wx:for="{{withdrawTypes}}" class="flex-left pt-32 pb-32 {{index===withdrawTypes.length-1?'':'border-b-221'}}">
+                            <image class="ico-48" src="{{index===withdrawTypeIndex?item.img:item.autoImg}}"></image>
+                            <view class="pl-10 width-194 fz-28">{{item.title}}</view>
+                            <radio class="ico-40" value="{{index}}" checked="{{index===withdrawTypeIndex}}"/>
                         </label>
                     </radio-group>
                 </view>
-            </vie>
-            <view class="pt-20 flex-between">
-                <label>提现账号</label>
-                <input class="back-white" type="text" name="account"/>
             </view>
-            <view class="pt-20">
-                <button type="primary" form-type="submit">提交申请</button>
+            <view class="pt-48 pb-48 border-b-221 pl-30 flex-left">
+                <label for="account" class="pr-42 fz-28 color-104 width-160 text-right">提现账号</label>
+                <input class="fz-30 input-30" type="text" name="account" data-name="account" bindinput="checkAble" id="account" placeholder="请输入提现账号"/>
             </view>
+            <view class="pt-48 color-104 fz-28 pb-55 pl-30">提现金额</view>
+            <view class="flex-left pl-30 border-b-221 pb-55">
+                <label for="amount" class="pr-42 fz-28 color-24 width-160 text-right">￥</label>
+                <input type="text" id="amount" data-name="amount" bindinput="checkAble" name="amount" placeholder="请输入提现金额"/>
+            </view>
+        </view>
+        <view class="pt-58 pl-24 pr-24">
+            <button class="btn-big border-24 fz-30 btn-active {{submitAble?'active':''}}" form-type="submit">提现</button>
         </view>
     </form>
 </view>

@@ -1,12 +1,29 @@
 .table{
+  &-list{
+    height: 130rpx;
+    &:first-child{
+      border-top:1rpx solid @color-194;
+    }
+    border-bottom:1rpx solid @color-194;
+  }
+  &-137{
+    height: 137rpx;
+  }
+  &-padding{
+    padding:15rpx 0;
+  }
   &-item{
     button{
-      padding-left:20rpx;
-      padding-right:20rpx;
-      height: 40rpx;
-      line-height:36rpx;
-      border: 1px solid @color-24;
-      font-size:26rpx;
+      padding: 0;
+      width: 128rpx;
+      height: 46rpx;
+      line-height:46rpx;
+      font-size:24rpx;
+    }
+    .sm{
+      width: 90rpx;
+      height: 46rpx;
+      line-height:42rpx;
     }
   }
 }

@@ -6,6 +6,7 @@
     "pages/place/index",
     "pages/withdraw/index",
     "pages/withdraw/info",
+    "pages/withdraw/list",
     "pages/count/index",
     "pages/my/index",
     "pages/my/qrcode",
@@ -22,23 +23,21 @@
     "list": [
       {
         "pagePath": "pages/member/index",
-        "text": "会员"
-      },
-      {
-        "pagePath": "pages/place/index",
-        "text": "场所"
+        "text": "客户",
+        "iconPath":"images/member.png",
+        "selectedIconPath":"images/member-check.png"
       },
       {
         "pagePath": "pages/withdraw/index",
-        "text": "提现"
-      },
-      {
-        "pagePath": "pages/count/index",
-        "text": "统计"
+        "text": "提现",
+        "iconPath":"images/withdraw.png",
+        "selectedIconPath":"images/withdraw-check.png"
       },
       {
         "pagePath": "pages/my/index",
-        "text": "我的"
+        "text": "我的",
+        "iconPath":"images/my.png",
+        "selectedIconPath":"images/my.png"
       }
     ]
   },
