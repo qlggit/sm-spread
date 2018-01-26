@@ -1,10 +1,10 @@
 <import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
-<view class="height-100-100  position-relative flex-row">
-    <view class="pt-16 pb-16 pr-24 pl-24">
+<view class="  position-relative flex-left flex-column">
+    <view class="pt-16 pb-16 pr-24 pl-24 width-100-100">
         <view class="border-rad-10 back-white flex-center border-221">
             <view class="width-50-100 flex-end" bindtap="doSearch">
-                <image class="search-ico mr-20" src="/images/search.png"/>
+                <image class="search-ico" src="/images/search.png"/>
             </view>
             <view class="width-50-100">
                 <input type="text" confirm-type="search" bindinput="searchInput" bindconfirm="doSearch"
@@ -12,7 +12,7 @@
             </view>
         </view>
     </view>
-    <scroll-view bindscrolltolower="pageDataScrollToLower" class="flex-grow">
+    <scroll-view scroll-y bindscrolltolower="pageDataScrollToLower" class="flex-grow">
         <view wx:for="{{pageData}}" class="flex-between fz-32 table-list back-white pl-48 pr-48">
             <view class="flex-left">
                 <image class="head-img border-rad-100" src="{{item.headImg}}"></image>

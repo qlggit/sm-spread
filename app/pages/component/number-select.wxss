@@ -1,13 +1,18 @@
 .img-ico{
-    width: 36rpx;
-    height: 36rpx;
+    width: 44rpx;
+    height: 44rpx;
 }
 .width-120{
-    width: 120rpx;
+    width: 160rpx;
+    color: #181818;
+    font-size:30rpx;
 }
-.flex-between{
+.flex-end{
     display: flex;
     flex-direction:row;
-    justify-content:space-between;
+    justify-content:flex-end;
     align-items:center;
+}
+.space-between{
+    justify-content:space-between;
 }

@@ -1,7 +1,16 @@
-<view style="padding-top: 10%;">
-    <canvas wx:if="canvasWidth"
-            canvas-id="my-canvas"
-            style="width:{{canvasWidth}}px;height:{{canvasWidth}}px;margin-left: 10%;"
-            class=""
-    ></canvas>
+<view class="qrcode-content text-center">
+    <view class="back-white border-rad-20 main">
+        <view class="fz-30 color-24">{{userInfo.nickname}}</view>
+        <view class="pt-96 flex-center">
+            <canvas wx:if="canvasWidth"
+                    canvas-id="my-canvas"
+                    class=""
+                    style="width:{{canvasWidth}}px;height:{{canvasWidth}}px;"
+            ></canvas>
+        </view>
+        <view class="pt-70 color-104 fz-28">
+            扫描二维码，享受多重好礼
+        </view>
+    </view>
+
 </view>

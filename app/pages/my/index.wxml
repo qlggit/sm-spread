@@ -1,23 +1,37 @@
-<view class="height-100-100">
-   <view class="pl-20 pr-20">
-       <view class="flex-between pt-10 pb-10">
-           <text>昵称</text>
-           <text class="">{{userInfo.nickname}}</text>
+<view class="back-white color-104 fz-30">
+       <view class="flex-between my-list pl-24 pr-24">
+           <view class="flex-left">
+               <image class="mr-20" src="/images/ico/wd_nc.png"></image>
+               <text>昵称</text>
+           </view>
+           <text class="color-24">{{userInfo.nickname}}</text>
        </view>
-       <view class="flex-between pt-10 pb-10">
-           <text>id</text>
-           <text class="">{{userInfo.userId}}</text>
+       <view class="flex-between my-list pl-24 pr-24">
+           <view class="flex-left">
+               <image class="mr-20" src="/images/ico/wd_ye.png"></image>
+               <text>余额</text>
+           </view>
+           <text class="color-24">{{userInfo.balance/100}}</text>
        </view>
-       <view class="flex-between pt-10 pb-10">
-           <text>电话</text>
-           <text class="">{{userInfo.mobile}}</text>
+       <view class="flex-between my-list pl-24 pr-24">
+           <view class="flex-left">
+               <image class="mr-20" src="/images/ico/wd_id.png"></image>
+               <text>ID号</text>
+           </view>
+           <text class="color-24">{{userInfo.userId}}</text>
        </view>
-       <view class="flex-between pt-10 pb-10">
-           <text>余额</text>
-           <text class="">{{userInfo.balance/100}}</text>
+       <view class="flex-between my-list pl-24 pr-24">
+           <view class="flex-left">
+               <image class="mr-20" src="/images/ico/wd_dh.png"></image>
+               <text>电话号码</text>
+           </view>
+           <text class="color-24">{{userInfo.mobile}}</text>
        </view>
-       <view class="pt-10 pb-10" bind:tap="navigateTo" data-link="/pages/my/qrcode" >
-           <view>我的推广二维码</view>
+       <view class="flex-between my-list pl-24 pr-24" bind:tap="navigateTo" data-link="/pages/my/qrcode">
+           <view class="flex-left">
+               <image class="mr-20" src="/images/ico/wd_ewm.png"></image>
+               <text>我的二维码</text>
+           </view>
+           <image class="more" src="/images/ico/wd_more.png"></image>
        </view>
-   </view>
 </view>

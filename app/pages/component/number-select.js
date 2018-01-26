@@ -1,9 +1,4 @@
 Component({
-    properties:{
-        item:{
-            type:Object,
-        }
-    },
     data:{
         number:0,
     },
@@ -12,7 +7,7 @@ Component({
             this.setData({
                 number:this.data.number-1
             });
-            global.WY.trigger('number-select',this.dataset);
+            global.WY.trigger('number-select',this.data,this.dataset);
         },
         plusNumber:function(){
             this.setData({

@@ -7,12 +7,12 @@
         <view class="pt-80">
             <button bind:tap="navigateTo"
                     data-link="/pages/withdraw/info"
-                    class="btn-big border-rad-10 border-24 back-24 color-white">申请提现</button>
+                    class="btn-big border-rad-10 border-24 fz-30 back-24 color-white">申请提现</button>
         </view>
         <view class="pt-58">
             <button bind:tap="navigateTo"
                     data-link="/pages/withdraw/list"
-                    class="btn-big border-rad-10 border-24 color-24">查看明细</button>
+                    class="btn-big border-rad-10 border-24 fz-30 color-24">查看明细</button>
         </view>
     </view>
 </view>

@@ -19,7 +19,10 @@ Page({
             pickerChangeHandler: ['startDate', 'endDate']
         });
         this.options = options;
-        this.doSearch();
+        var that = this;
+        WY.oneReadyOnce('user-info' , function(data){
+            that.doSearch();
+        }, this);
     },
     doSearch:function(e){
         var that = this;
@@ -29,6 +32,7 @@ Page({
         var data = {
             payStatus:'ALREADY_PAY',
             userId:this.options.userId,
+            supplierId:WY.session.userInfo.supplierId,
             pageNum:this.data.pageNum,
             pageSize:this.data.pageSize,
         };

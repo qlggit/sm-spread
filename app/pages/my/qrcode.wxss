@@ -1,0 +1,9 @@
+.qrcode-content{
+    padding-top:96rpx;
+    padding-left:76rpx;
+    padding-right:76rpx;
+}
+.main{
+    padding-top:78rpx;
+    padding-bottom:120rpx;
+}

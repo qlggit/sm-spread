@@ -1,0 +1,32 @@
+.open-title image{
+    width: 18rpx;
+    height: 22rpx;
+}
+.open-title.active{
+    color: #181818;
+}
+.open-title.active image{
+    width: 22rpx;
+    height: 18rpx;
+}
+.product-list{
+    height: 68rpx;
+    border-bottom: 1px solid rgb(221,221,221);
+}
+.product-list:last-child{
+    border-bottom:0;
+}
+.product-list .title{
+    width: 180rpx;
+    text-align: left;
+}
+.product-list .num{
+    width: 60rpx;
+    margin-right: 100rpx;
+}
+.product-list .price{
+    width: 100rpx;
+}
+.product-list .all{
+    text-align:right;
+}

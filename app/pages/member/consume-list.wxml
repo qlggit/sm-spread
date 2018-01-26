@@ -1,34 +1,83 @@
 <import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
-<view class="height-100-100 position-relative pt-20 pr-24 pl-24">
-    <view class="back-white border-rad-10 border-221 pl-20 pr-20">
-        <view class="pt-26 pb-26 fz-30 color-24">
-            {{showData.supplierName}}
+<view class=" position-relative pt-20 pr-24 pl-24 fz-28 color-104">
+    <view class="back-white border-rad-10 border-221 pl-20 pr-20 mb-20">
+        <view class="pt-26 pb-26 fz-30 color-24 border-b-221">
+            {{showData.supplierName}}(消费)
         </view>
-        <view class="pl-4 pt-20 pb-20 color-104 flex-left fz-28">
-            <view class="width-150 pr-42 text-right">消费数量</view>
-            <view class="width-150 color-24">{{showData.number}}</view>
+        <view class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">消费数量</view>
+            <view class="width-230 color-24">{{showData.number}}</view>
             <view>件</view>
         </view>
-        <view class="pl-4 pt-20 pb-20 color-104 flex-left fz-28">
-            <view class="width-150 pr-42 text-right">消费金额</view>
-            <view class="width-150 color-24">{{showData.number}}</view>
-            <view>件</view>
+        <view class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">消费金额</view>
+            <view class="width-230 color-24">{{showData.amount}}</view>
+            <view>元</view>
         </view>
-        <view class="pl-4 pt-20 pb-20 color-104 flex-left fz-28">
-            <view class="width-150 pr-42 text-right">订桌时间</view>
-            <view class="width-150 color-24">{{showData.bookTime}}</view>
-            <view>件</view>
+        <view class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">订桌时间</view>
+            <view class=" color-24">{{showData.bookTime}}</view>
         </view>
-        <view class="pl-4 pt-20 pb-20 color-104 flex-left fz-28">
-            <view class="width-150 pr-42 text-right">到场时间</view>
-            <view class="width-150 color-24">{{showData.dcTime}}</view>
-            <view>件</view>
+        <view wx:if="{{showData.arrivedTime}}" class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">到场时间</view>
+            <view class=" color-24">{{showData.arrivedTime}}</view>
+        </view>
+        <view bindtap="activeChange" data-index="0" class="pt-26 pb-26 color-24 open-title flex-between pl-4 {{activeList[0]?'active':''}} border-b-221">
+            <view>消费清单</view>
+            <image src="/images/arrow{{activeList[0]?'':'_01'}}.png"></image>
+        </view>
+        <view wx:if="{{activeList[0]}}"  class="pl-30 pr-30  text-center">
+            <view class="product-list  flex-left" >
+                <view class="title">名称</view>
+                <view class="num">数量</view>
+                <view class="price">单价</view>
+                <view class="all flex-grow">总价</view>
+            </view>
+            <view class="product-list  flex-between" wx:for="{{buyData}}">
+                <view class="title">{{item.goodsName}}</view>
+                <view class="num">{{item.quantity}}</view>
+                <view class="price">{{item.unitPrice}}</view>
+                <view class="all flex-grow">{{item.amount}}</view>
+            </view>
+
         </view>
     </view>
-    <view class="pt-10 pb-10">赠送数量：{{showData.giveNumber}}</view>
-    <view class="pt-10 pb-10">总赠送：{{showData.giveAmount}}</view>
-    <view class="pt-10 pb-10" wx:if="{{showData.arrivedTime}}">消费时间：{{showData.arrivedTime}}</view>
-    <view class="pt-10 pb-10" wx:if="{{showData.giveAble}}"><button bindtap="doGive" data-options="{{showData}}">赠送</button></view>
-    <template wx:if="{{tableDataAble}}" is="tableData" data="{{searchData:searchData,pageData:pageData,notBtn:1,showMainWidth:showMainWidth}}"></template>
+    <view class="pb-20" wx:if="{{showData.giveAble}}">
+        <button class="btn-big color-white back-24 fz-30" bindtap="doGive" data-options="{{showData}}">赠送</button>
+    </view>
+    <view class="back-white border-rad-10 border-221 pl-20 pr-20 mb-20" wx:if="{{giveData&&giveData.length}}">
+        <view class="pt-26 pb-26 fz-30 color-24 border-b-221">
+            {{showData.supplierName}}(赠送)
+        </view>
+        <view class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">赠送数量</view>
+            <view class="width-230 color-24">{{showData.giveNumber}}</view>
+            <view>件</view>
+        </view>
+        <view class="pl-4 pt-20 pb-20  flex-left border-b-221">
+            <view class="width-150 pr-20 text-right">赠送金额</view>
+            <view class="width-230 color-24">{{showData.giveAmount}}</view>
+            <view>元</view>
+        </view>
+        <view bindtap="activeChange" data-index="1" class="pt-26 pb-26 color-24 open-title flex-between pl-4 {{activeList[1]?'active':''}} border-b-221">
+            <view>赠送清单</view>
+            <image src="/images/arrow{{activeList[1]?'':'_01'}}.png"></image>
+        </view>
+        <view wx:if="{{activeList[1]}}"  class="pl-30 pr-30  text-center">
+            <view class="product-list  flex-left" >
+                <view class="title">名称</view>
+                <view class="num">数量</view>
+                <view class="price">单价</view>
+                <view class="all flex-grow">总价</view>
+            </view>
+            <view class="product-list  flex-between" wx:for="{{giveData}}">
+                <view class="title">{{item.goodsName}}</view>
+                <view class="num">{{item.quantity}}</view>
+                <view class="price">{{item.unitPrice}}</view>
+                <view class="all flex-grow">{{item.amount}}</view>
+            </view>
+
+        </view>
+    </view>
 </view>

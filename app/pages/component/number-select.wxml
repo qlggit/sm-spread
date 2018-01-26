@@ -1,4 +1,4 @@
-<view class="flex-between width-120" style="margin: auto;">
+<view class="flex-end width-120 {{number>0?'space-between':''}}" style="margin: auto;">
     <image wx:if="{{number>0}}" class="img-ico" src="../../images/reduce.png" bindtap="reduceNumber"></image>
     <view wx:if="{{number>0}}">{{number}}</view>
     <image class="img-ico" src="../../images/plus.png" bindtap="plusNumber"></image>

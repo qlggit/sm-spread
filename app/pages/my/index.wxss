@@ -1,0 +1,13 @@
+.my-list{
+    height: 96rpx;
+    padding-top:28rpx;
+    padding-bottom:28rpx;
+}
+.my-list image{
+    width: 38rpx;
+    height: 38rpx;
+}
+.my-list .more{
+    width: 18rpx;
+    height: 30rpx;
+}

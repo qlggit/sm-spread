@@ -1,6 +1,6 @@
 <include src="../common/init.wxml"/>
-<view class="height-100-100 position-relative flex-row">
-    <view class="pt-16 pb-16 pr-24 pl-24 flex-between">
+<view class=" position-relative flex-left flex-column">
+    <view class="pt-16 pb-16 pr-24 pl-24 flex-between width-100-100">
         <view class="date-input border-221 border-rad-10 back-white">
             <picker
                     name="startDate"
@@ -28,7 +28,7 @@
         </view>
         <button class="search-btn border-24 border-rad-10 color-24" bindtap="doSearch">查询</button>
     </view>
-    <scroll-view bindscrolltolower="pageDataScrollToLower" class="flex-grow">
+    <scroll-view scroll-y bindscrolltolower="pageDataScrollToLower" class="flex-grow">
         <view wx:for="{{pageData}}" class="back-white table-list table-137 color-24 fz-28 pt-32 pl-24 pr-24">
             <view class="flex-between mb-20 fz-30 color-24">
                 <view>{{item.typeName}}</view>

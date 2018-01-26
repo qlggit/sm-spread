@@ -2,7 +2,7 @@
 <view class="height-100-100 position-relative">
     <form bindsubmit="doWithdraw" >
         <view >
-            <view class="pl-30 flex-between flex-top border-b-221">
+            <view class="pl-30 flex-left flex-top border-b-221">
                 <view class="pr-42 fz-28 color-104 pt-42 width-160 text-right">提现方式</view>
                 <view class="flex-grow">
                     <radio-group bindchange="withdrawTypeValue">

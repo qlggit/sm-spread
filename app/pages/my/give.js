@@ -2,38 +2,15 @@ var WY = global.WY;
 Page({
     name:'member-index',
     data:{
-        searchData:{
-            showList:[
-                {
-                    title:'名称',
-                    name:'goodsName',
-                    width:'300'
-                },
-                {
-                    title:'单价',
-                    name:'unitPrice',
-                    width:'300'
-                },
-                {
-                    title:'选择',
-                    type:'btn',
-                    btnType:'numberSelect'
-                },
-            ]
-        },
         pageData:[],
-        giveProductCount:'',
-        giveProductAmount:'',
+        giveProductCount:0,
+        giveProductAmount:0,
+        giveAmount:0,
         selectList:[],
     },
     onLoad:function(options){
         WY.wxInit(this);
         this.options = options;
-        this.setData({
-            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
-                return a.width || 0;
-            }),
-        });
         this.doSearch();
         var that = this;
         WY.oneBind('number-select',function(data , dataset ){
@@ -42,6 +19,23 @@ Page({
             }).number = data.number;
             that.doSum();
         },this);
+        this.searchGiveAmount();
+    },
+    searchGiveAmount:function(){
+        var that = this;
+        WY.request({
+            url:WY.url.order.giveAmount,
+            data:{
+            },
+            success:function(a){
+                var data = a.result && a.result.find(function(a){
+                    return a.supplierId - 0 === that.options.supplierId - 0
+                });
+                if(data)that.setData({
+                    giveAmount:data.amount / 100
+                })
+            }
+        });
     },
     doSum:function(){
         var count=0,sum=0;
@@ -63,7 +57,6 @@ Page({
                 a.unitPrice = a.unitPrice.turnMoney();
             });
             that.setData({
-                tableDataAble:1,
                 pageData:data
             })
         });
@@ -81,6 +74,10 @@ Page({
         });
         if(!goodsLs.length){
             WY.newToast('请先选择商品');
+            return false;
+        }
+        if(this.data.giveAmount - 0 < this.data.giveProductAmount){
+            WY.newToast('赠送额度不足');
             return false;
         }
         WY.confirm('确定赠送给'+this.options.nickname+'?',function(v){

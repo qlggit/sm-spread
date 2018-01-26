@@ -1,15 +1,23 @@
-<import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
-<view>
-    <template wx:if="tableDataAble" is="tableData"
-              data="{{searchData:searchData,pageData:pageData,showMainWidth:showMainWidth}}"></template>
-    <view>
-        <view class="">
-            <view class="pt-20">已选数量:{{giveProductCount}}</view>
-            <view class="pt-20">总金额:{{giveProductAmount}}</view>
+<view class="pt-20 pr-24 pl-24">
+    <view class="pl-20 pt-20 pb-20 back-white mb-20 fz-28 color-24">赠送额度:{{giveAmount}}</view>
+    <view class="overflow-hidden border-rad-10 border-221 fz-28 color-24">
+        <view class="give-list flex-between">
+            <view class="text-left">名称</view>
+            <view class="text-center">单价(元)</view>
+            <view class="text-right">数量(瓶)</view>
         </view>
-        <view class="pt-20">
-            <button type="primary" bindtap="submitGive">确定</button>
+        <view class="give-list flex-between" wx:for="{{pageData}}">
+            <view class="text-left">{{item.goodsName}}</view>
+            <view class="text-center">{{item.unitPrice}}</view>
+            <view class="text-right"><number-select data-item="{{item}}" data-index="{{index}}" ></number-select></view>
         </view>
+    </view>
+    <view class="pt-26 pl-48 pr-24 color-104 fz-24 flex-between">
+        <view class="pt-20">已选数量:{{giveProductCount}}</view>
+        <view class="pt-20">总金额:{{giveProductAmount}}</view>
+    </view>
+    <view class="pt-58">
+        <button class="btn-big back-24 color-white fz-30" bindtap="submitGive">确定</button>
     </view>
 </view>

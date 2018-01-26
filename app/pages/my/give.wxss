@@ -1,0 +1,19 @@
+.give-list{
+    height: 90rpx;
+    padding-left:50rpx;
+    padding-right:20rpx;
+    padding-top:23rpx;
+    border-bottom: 1px solid rgb(221,221,221);
+}
+.give-list:nth-child(odd){
+    background: white;
+}
+.give-list:last-child{
+    border-bottom:0;
+}
+.give-list.title{
+    height: 87rpx;
+    padding-top:30rpx;
+    padding-bottom:25rpx;
+    color:#686868;
+}

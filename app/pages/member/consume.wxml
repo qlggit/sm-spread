@@ -1,7 +1,7 @@
 <import src="../common/page-data.wxml"></import>
 <include src="../common/init.wxml"/>
-<view class="height-100-100 position-relative flex-row">
-    <view class="pt-16 pb-16 pr-24 pl-24 flex-between">
+<view class=" position-relative flex-left flex-column">
+    <view class="pt-16 pb-16 pr-24 pl-24 flex-between width-100-100">
         <view class="date-input border-221 border-rad-10 back-white">
             <picker
                     name="startDate"
@@ -29,7 +29,7 @@
         </view>
         <button class="search-btn border-24 border-rad-10 color-24" bindtap="doSearch">查询</button>
     </view>
-    <scroll-view bindscrolltolower="pageDataScrollToLower" class="flex-grow">
+    <scroll-view scroll-y bindscrolltolower="pageDataScrollToLower" class="flex-grow">
         <view wx:for="{{pageData}}" class="flex-between  back-white table-list  table-padding table-137 color-24 fz-28 text-center">
             <view class="width-194 border-r-221">
                 <view class="write-ellipsis mb-16">{{item.supplierName}}</view>
@@ -40,7 +40,7 @@
                 <view class="fz-22 color-104">最低:{{item.lowCostAmount/100}}元</view>
             </view>
             <view class="width-230 border-r-221">
-                <view class="mb-16">{{item.bookTime.slice(0,10)}}</view>
+                <view class="mb-16">{{item.bookTime}}</view>
                 <view class="fz-22 color-104">订桌时间</view>
             </view>
             <view class="table-item width-134">

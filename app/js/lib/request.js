@@ -13,7 +13,7 @@ var request = function(options){
     if(options.method === 'POST' && options.notBody){
         header['Content-Type'] = 'application/x-www-form-urlencoded';
     }
-    header.tokenInfo = global.WY.session.getTokenInfo();
+    if(!options.notToken)header.tokenInfo = global.WY.session.getTokenInfo();
     console.log('request');
     console.log(options);
     wx.request(Object.assign({},options,{

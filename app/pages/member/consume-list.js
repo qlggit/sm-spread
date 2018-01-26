@@ -2,57 +2,25 @@ var WY = global.WY;
 Page({
     name:'member-index',
     data:{
-        searchData:{
-            showList:[
-                {
-                    title:'名称',
-                    name:'goodsName',
-                    width:'150'
-                },
-                {
-                    title:'数量',
-                    name:'quantity',
-                    width:'150'
-                },
-                {
-                    title:'单价',
-                    name:'unitPrice',
-                    width:'150'
-                },
-                {
-                    title:'总价',
-                    name:'amount',
-                    width:'150'
-                },
-                {
-                    title:'类型',
-                    name:'type',
-                    width:'150'
-                },
-            ]
-        },
-        dataList:[{
-
-        },{
-
-        }],
         showData:'',
-        pageData:[]
+        pageData:[],
+        activeList:[0,0],
     },
     onLoad:function(options){
         WY.wxInit(this);
         this.options = options;
-        this.setData({
-            showMainWidth:WY.common.sum(this.data.searchData.showList , function(a){
-                return a.width || 0;
-            }),
-        });
         this.searchSeat();
     },
     onShow:function(options){
         if(this.data.showData){
             this.searchOrder();
         }
+    },
+    activeChange:function(e){
+        this.data.activeList[e.target.dataset.index] = !this.data.activeList[e.target.dataset.index];
+        this.setData({
+            activeList:this.data.activeList
+        });
     },
     searchSeat:function(){
         var that = this;
@@ -72,6 +40,7 @@ Page({
                     supplierName: data.supplierName,
                     bookTime: WY.common.parseDate(data.bookTime),
                     giveAble: new Date(data.bookTime) > new Date(WY.common.getStartBookTime())
+                    && new Date(WY.common.getStartBookTime())< (new Date(data.bookTime)-0+24*3600*1000)
                 };
                 if (data.arrivedTime) {
                     showData.arrivedTime = WY.common.parseDate(data.arrivedTime)
@@ -132,6 +101,7 @@ Page({
                                         quantity:c.quantity,
                                         unitPrice :c.unitPrice.turnMoney().toMoney(),
                                         amount :amount.toMoney(),
+                                        autoType:data.type,
                                         type:data.type === 'buy'?'购买':'赠送'
                                     }
                                 }));
@@ -148,6 +118,8 @@ Page({
             showData.giveAmount = giveAmount.toMoney();
             showData.giveNumber = giveNumber.toMoney();
             that.setData({
+                buyData:detailLs.filter(function(a){return a.autoType === 'buy'}),
+                giveData:detailLs.filter(function(a){return a.autoType !== 'buy'}),
                 pageData:detailLs,
                 showData:showData,
                 tableDataAble:1,

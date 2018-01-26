@@ -135,8 +135,14 @@ picker {
 .pt-64 {
   padding-top: 64rpx;
 }
+.pt-70 {
+  padding-top: 70rpx;
+}
 .pt-80 {
   padding-top: 80rpx;
+}
+.pt-96 {
+  padding-top: 96rpx;
 }
 .pt-header {
   padding-top: 82rpx;
@@ -188,6 +194,9 @@ picker {
 }
 .pr-24 {
   padding-right: 24rpx;
+}
+.pr-30 {
+  padding-right: 30rpx;
 }
 .pr-42 {
   padding-right: 42rpx;
@@ -530,9 +539,6 @@ input:focus {
   line-height: 46rpx;
   border-radius: 46rpx;
 }
-.flex-grow {
-  flex-grow: 1;
-}
 .flex-center {
   display: flex;
   flex-direction: row;
@@ -560,11 +566,11 @@ input:focus {
 .flex-wrap {
   flex-wrap: wrap;
 }
-.flex-row {
-  flex-direction: row;
+.flex-column {
+  flex-direction: column;
 }
 .flex-top {
-  align-items: top;
+  align-items: flex-start;
 }
 .flex-grow {
   flex-grow: 1;

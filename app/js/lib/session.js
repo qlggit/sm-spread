@@ -85,6 +85,16 @@ module.exports = function(WY){
     }
     WY.bind('de-key-info' , deInfo);
     var hasDoLogin;
+    function userFlush(){
+        WY.request({
+            url:WY.url.login.infoById,
+            method:'POST',
+            success:function(data){
+                userInfo = data.result;
+                checkPhone();
+            }
+        });
+    }
     function checkUser(){
         WY.request({
             url:WY.url.login.login,
@@ -98,6 +108,7 @@ module.exports = function(WY){
                 uid     :loginData.unionId ,
                 gender      :loginData.gender  ,
             },
+            notToken:1,
             method:'POST',
             success:function(data){
                 wx.stopPullDownRefresh();
@@ -112,31 +123,41 @@ module.exports = function(WY){
             if(!hasDoLogin)return checkUser();
             WY.ready('do-bind-phone');
         }else{
-           WY.trigger('bind-phone-success');
+            setUserInfo();
         }
     }
-    WY.bind('bind-phone-success',function(){
+    function setUserInfo(){
+        if(!WY.session.userInfo.supplierId){
+            WY.newToast('你没有权限使用该小程序');
+            return false;
+        }
         wx.setStorageSync('userInfo',JSON.stringify(userInfo));
         session.userInfo = userInfo;
         WY.ready('user-info',userInfo);
-    });
+    }
+    WY.bind('bind-phone-success',setUserInfo);
     WY.bind('send-bind-phone' , function(phone , call){
         WY.request({
-            url:WY.url.login.bind,
+            url:WY.url.login.login,
             method:'POST',
             data:{
-                userId:userInfo.tokenModel.userId,
                 phone:phone,
-                sType:'weixin',
+                mobile:phone,
                 bindWay:'y',
-                uid:loginData.unionId
+                deviceType :'xcx',
+                headImg :loginData.avatarUrl,
+                nickname  :loginData.nickName,
+                openId   :loginData.openId ,
+                sType     :'weixin'  ,
+                uid     :loginData.unionId ,
+                gender      :loginData.gender  ,
             },
+            notToken:1,
             notBody:1,
             success:function(a){
-                userInfo = session.userInfo = a.result;
-                WY.ready('user-info' , session.userInfo);
-                WY.toast(a.message);
+                userInfo = a.result;
                 WY.trigger('bind-phone-success');
+                WY.toast(a.message);
                 call && call(1);
             }
         })

@@ -6,6 +6,7 @@ module.exports = function(config){
             sessionKey :appapi + '/wechat/jscode/smspread',
             login :appapi + '/api/user/v_1/login',
             bind :appapi + '/api/user/v_1/bindPhone',
+            infoById :appapi + '/api/user/v_1/infoById',
         },
         de:{
             info :appapi + '/wechat/key/de/smspread',
@@ -28,6 +29,7 @@ module.exports = function(config){
 
             give:appapi + '/api/give/v_1/give',
             giveInfo:appapi + '/api/give/v_1/list',
+            giveAmount:appapi + '/api/give/v_1/spreadInfolist',
         },
         product:{
             list:appapi + '/product/spread',

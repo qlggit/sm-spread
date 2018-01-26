@@ -18,8 +18,9 @@
     "backgroundColor":"#fafafa"
   },
   "tabBar": {
-    "color":"#666",
-    "selectedColor":"#333",
+    "color":"#fff",
+    "selectedColor":"#fff",
+    "backgroundColor":"#181818",
     "list": [
       {
         "pagePath": "pages/member/index",
@@ -37,7 +38,7 @@
         "pagePath": "pages/my/index",
         "text": "我的",
         "iconPath":"images/my.png",
-        "selectedIconPath":"images/my.png"
+        "selectedIconPath":"images/my-check.png"
       }
     ]
   },
